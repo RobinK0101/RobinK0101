@@ -3,8 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Prüfstand">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: light)">
@@ -48,6 +46,8 @@ header.top .inner{max-width:660px;margin:0 auto}
 .hrow{display:flex;align-items:center;gap:14px}
 .hrow .txt{flex:1;min-width:0}
 .eyebrow{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--panelDim)}
+.eyebrow.vl{color:#fbbf24}
+.verdikt.n{color:var(--panelDim)}
 .verdikt{font-size:25px;font-weight:800;letter-spacing:-.02em;line-height:1.15;margin:3px 0 3px}
 .verdikt.g{color:#4ade80}.verdikt.a{color:#fbbf24}.verdikt.o{color:#fb923c}.verdikt.r{color:#fb7185}
 .subline{font-size:12px;color:var(--panelDim)}
@@ -95,7 +95,7 @@ details.grp{background:var(--card);border:1px solid var(--line);border-radius:14
 details.grp>summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:600;font-size:14.5px;
  display:flex;justify-content:space-between;align-items:center}
 details.grp>summary::-webkit-details-marker{display:none}
-details.grp>summary::after{content:"⌄";font-size:18px;color:var(--dim);line-height:1;display:inline-block;transition:transform .15s}
+details.grp>summary::after{content:"⌄";font-size:18px;color:var(--dim);line-height:1}
 details.grp[open]>summary::after{transform:rotate(180deg)}
 details.grp .body{padding:0 16px 16px}
 details.erk{background:var(--soft);border-radius:10px;margin-top:14px;overflow:hidden}
@@ -150,10 +150,10 @@ details.erk b{color:var(--fg)}
  padding:3px 9px;border-radius:99px;margin-bottom:10px}
 .tag.g{background:#0f766e;color:#d4f5ef}.tag.a{background:#b45309;color:#fdf0d9}
 .tag.o{background:#c2410c;color:#ffe8d9}.tag.r{background:#b91c1c;color:#ffe0e0}
-button.btn{font-family:var(--sans);font-size:14px;font-weight:600;padding:10px 15px;border-radius:10px;
+.btn{font-family:var(--sans);font-size:14px;font-weight:600;padding:10px 15px;border-radius:10px;
  border:1px solid var(--btnBg);background:var(--btnBg);color:var(--btnFg);cursor:pointer}
-button.btn.sec{background:transparent;color:var(--fg);border-color:var(--line)}
-button.btn.sm{font-size:12.5px;padding:7px 11px;font-weight:500}
+.btn.sec{background:transparent;color:var(--fg);border-color:var(--line)}
+.btn.sm{font-size:12.5px;padding:7px 11px;font-weight:500}
 .btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
 .obj{display:flex;align-items:center;gap:11px;padding:11px;border:1px solid var(--line);border-radius:11px;margin-top:9px}
 .obj.act{border-color:var(--fg);border-width:2px}
@@ -182,6 +182,162 @@ textarea{width:100%;height:100px;font-family:var(--mono);font-size:11px;border:1
 svg .gl{stroke:var(--line2);stroke-width:1}
 svg .ax{fill:var(--dim);font-size:10px}
 svg .bind{stroke:var(--dim);stroke-dasharray:3 3;stroke-width:1}
+
+/* ---- Vergleich ---- */
+.sortbar{display:flex;gap:7px;overflow-x:auto;margin:0 -16px 14px;padding:0 16px 2px;scrollbar-width:none}
+.sortbar::-webkit-scrollbar{display:none}
+.sbtn{flex:none;font-size:12.5px;padding:6px 12px;border-radius:99px;border:1px solid var(--line);
+ background:transparent;color:var(--muted);white-space:nowrap;cursor:pointer;font-family:var(--sans)}
+.sbtn.on{background:var(--fg);color:var(--card);border-color:var(--fg);font-weight:600}
+.rank{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.rank:last-child{border-bottom:0}
+.rank .pos{flex:none;width:26px;font-family:var(--mono);font-size:19px;font-weight:700;color:var(--dim);line-height:1.2}
+.rank .bd{flex:1;min-width:0}
+.rank .tt{display:flex;align-items:center;gap:9px}
+.rank .tt b{font-size:15px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank .mini2{display:flex;flex-wrap:wrap;gap:4px 14px;margin:5px 0 7px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.rank .mini2 b{color:var(--fg);font-weight:600}
+.plus,.minus{font-size:12.5px;line-height:1.45;padding-left:16px;position:relative;margin-top:3px;color:var(--fg2)}
+.plus::before{content:"+";position:absolute;left:0;color:var(--good);font-weight:700}
+.minus::before{content:"−";position:absolute;left:0;color:var(--bad);font-weight:700}
+.mtxwrap{overflow-x:auto;margin:0 -16px;padding:0 16px;-webkit-overflow-scrolling:touch}
+.mtx{border-collapse:separate;border-spacing:0;font-size:12px;min-width:100%}
+.mtx th,.mtx td{padding:8px 9px;white-space:nowrap;text-align:right;border-bottom:1px solid var(--line2)}
+.mtx thead th{font-size:11px;font-weight:700;color:var(--fg);border-bottom:2px solid var(--line);position:sticky;top:0;background:var(--card)}
+.mtx .crit{text-align:left;position:sticky;left:-16px;background:var(--card);font-family:var(--sans);
+ color:var(--muted);font-size:11.5px;font-weight:600;padding-left:0;box-shadow:1px 0 0 var(--line2)}
+.mtx thead .crit{color:var(--fg);z-index:2}
+.mtx td{font-family:var(--mono)}
+.mtx td.best{background:var(--goodL);color:var(--good);font-weight:700;border-radius:6px}
+.mtx td.worst{background:var(--badL);color:var(--bad)}
+.gear{flex:none;width:38px;height:38px;border-radius:10px;border:1px solid var(--panelLine);background:transparent;
+ color:var(--panelDim);font-size:17px;cursor:pointer;line-height:1}
+.sheet{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.45);display:none;align-items:flex-end}
+.sheet.on{display:flex}
+.sheetin{background:var(--bg);width:100%;max-height:88vh;overflow-y:auto;border-radius:18px 18px 0 0;
+ padding:0 14px calc(env(safe-area-inset-bottom) + 24px);-webkit-overflow-scrolling:touch}
+.sheethd{position:sticky;top:0;background:var(--bg);padding:16px 0 12px;display:flex;align-items:center;
+ justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);z-index:2}
+.sheethd h2{margin:0;font-size:19px}
+.empty{text-align:center;padding:34px 10px;color:var(--muted)}
+.empty .big{font-size:34px;margin-bottom:8px}
+
+/* ---- Status, Notizen, Checkliste ---- */
+.badge{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:99px;white-space:nowrap;flex:none;
+ border:1px solid var(--line);color:var(--muted)}
+.badge.b1{background:var(--linkBg);border-color:var(--linkLine);color:var(--link)}
+.badge.b2{background:var(--warnL);border-color:var(--warn);color:var(--warn)}
+.badge.b3{background:var(--goodL);border-color:var(--good);color:var(--good)}
+.badge.b4{background:transparent;color:var(--dim);text-decoration:line-through}
+.chk{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--line2);cursor:pointer}
+.chk:last-child{border-bottom:0}
+.chk input{width:21px;height:21px;flex:none;margin:1px 0 0;accent-color:var(--good)}
+.chk span{font-size:13.5px;line-height:1.4}
+.chk.done span{color:var(--dim);text-decoration:line-through}
+.notiz{width:100%;height:90px;font-family:var(--sans);font-size:14px;border:1px solid var(--line);
+ border-radius:10px;padding:10px;resize:vertical;-webkit-appearance:none;margin-top:4px;line-height:1.45}
+.prog{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.prog .bar{flex:1;margin:0}
+.prog b{font-family:var(--mono);font-size:12px;color:var(--muted);flex:none}
+
+/* ---- Maximalgebot ---- */
+.gebot{background:var(--panel);color:var(--panelFg);border-radius:14px;padding:18px;margin-top:14px}
+.gebot .lbl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--panelDim);font-family:var(--mono)}
+.gebot .val{font-family:var(--mono);font-size:34px;font-weight:700;letter-spacing:-.02em;margin:4px 0 6px;line-height:1.1}
+.gebot .val.up{color:#4ade80}.gebot .val.down{color:#fb7185}
+.gebot .sub{font-size:13.5px;color:#cfd7e2;line-height:1.5}
+
+/* ---- Stresstest ---- */
+.stress{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line2)}
+.stress:last-child{border-bottom:0}
+.stress .sn{font-size:13.5px}
+.stress .sn i{display:block;font-style:normal;font-size:11.5px;color:var(--muted);margin-top:2px}
+.stress .sv{font-family:var(--mono);font-size:15px;font-weight:600;flex:none;text-align:right}
+.stress .sv i{display:block;font-style:normal;font-size:11px;font-weight:400;color:var(--muted)}
+
+/* ---- Onboarding ---- */
+.onb{background:var(--linkBg);border:1px solid var(--linkLine);border-radius:12px;padding:14px;margin-top:14px}
+.onb b{display:block;margin-bottom:4px}
+.onb p{margin:0;font-size:13.5px;color:var(--fg2);line-height:1.5}
+
+/* ---- Offene Angaben, Radar, Hinweise ---- */
+a.btn{display:inline-block;text-decoration:none;text-align:center}
+input::placeholder{color:var(--dim);opacity:1;font-size:14px}
+.tg{display:none;font-family:var(--sans);font-size:9.5px;font-weight:700;letter-spacing:.03em;padding:1px 7px;
+ border-radius:99px;margin-left:auto;flex:none;line-height:1.5}
+label.f.offen .lab{color:var(--warn)}
+label.f.offen .row{border-bottom:1.5px dashed var(--warn)}
+label.f.offen .tg.to{display:inline-block;background:var(--warnL);color:var(--warn);border:1px solid var(--warn)}
+label.f.radar:not(.offen) .tg.tr{display:inline-block;background:var(--linkBg);color:var(--link);border:1px solid var(--linkLine)}
+.stand{border-left:4px solid var(--warn)}
+.stand.fertig{border-left-color:var(--good)}
+.stand .src{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:10px;
+ letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.stand .ttl{font-size:15px;font-weight:700;margin:8px 0 3px;line-height:1.3}
+.stand .fakt{font-family:var(--mono);font-size:12.5px;color:var(--fg2);line-height:1.5}
+.stand .olead{font-size:13.5px;margin-top:14px;color:var(--fg2);line-height:1.45}
+.stand .olead b{color:var(--fg)}
+.stand .olead.ok{color:var(--good);font-weight:600}
+.ochips{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+.ochip{font-family:var(--sans);font-size:13px;font-weight:600;padding:7px 12px;border-radius:99px;
+ border:1px solid var(--warn);background:var(--warnL);color:var(--warn);cursor:pointer}
+.hinw{background:var(--linkBg);border:1px solid var(--linkLine);border-radius:12px;padding:12px 14px;margin-top:14px;
+ font-size:13.5px;line-height:1.5;color:var(--fg2)}
+.hinw b{color:var(--fg)}
+.hinw .btnrow{margin-top:10px}
+.sperre{text-align:center;padding:30px 16px}
+body.leer #v2>:not(.sperre){display:none!important}
+body:not(.leer) .sperre{display:none}
+.fazit p.vorl{background:rgba(251,191,36,.13);border-left:3px solid #fbbf24;border-radius:0 8px 8px 0;
+ padding:9px 11px;font-size:13px;color:#f1e3bd}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 24px);transform:translateX(-50%);
+ background:var(--fg);color:var(--card);font-size:13.5px;font-weight:600;padding:10px 17px;border-radius:99px;
+ z-index:120;opacity:0;pointer-events:none;transition:opacity .2s;max-width:88vw;text-align:center;
+ box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.toast.on{opacity:1}
+
+/* ================= DESKTOP ================= */
+@media (min-width:1000px){
+  body{font-size:15px}
+  .wrap{max-width:1240px;padding:0 24px 60px}
+  header.top{padding:16px 24px 0}
+  header.top .inner{max-width:1240px;display:grid;grid-template-columns:1fr auto;gap:6px 24px;align-items:center}
+  .hrow{grid-column:1;grid-row:1}
+  .verdikt{font-size:27px}
+  .chips{grid-column:2;grid-row:1;margin:0;padding:0;max-width:520px}
+  .tabs{grid-column:1 / -1;grid-row:2;gap:2px}
+  .tab{flex:0 0 auto;padding:11px 20px;font-size:14px}
+  #work.on{display:grid;grid-template-columns:minmax(380px,440px) 1fr;gap:24px;align-items:start}
+  #work.on>.view{display:block}
+  #work.on>.view .card:first-child{margin-top:14px}
+  .stats{grid-template-columns:1fr 1fr 1fr}
+  #v3 .fazit,#v3 .card{max-width:900px}
+  .rank{padding:16px 0}
+  .card{padding:20px}
+  .sheetin{max-width:880px;margin:0 auto;border-radius:18px;max-height:86vh}
+  .sheet{align-items:center;padding:20px}
+  .sheetin .grid{grid-template-columns:1fr 1fr 1fr}
+  .empty{padding:60px 20px}
+}
+@media (min-width:1000px) and (max-width:1279px){
+  #work.on{grid-template-columns:minmax(340px,380px) 1fr;gap:20px}
+}
+
+/* ================= DRUCK ================= */
+@media print{
+  header.top,.tabs,.chips,.gear,.btnrow,.sortbar,.sheet,.onb,input[type=range],.q,.help,.toast,.hinw,.ochips,.tg{display:none!important}
+  body{background:#fff;color:#000;font-size:11pt}
+  .view,#work{display:block!important}
+  #work{display:block!important}
+  .card,details.grp{break-inside:avoid;box-shadow:none;border:1px solid #bbb;margin-top:10px}
+  details.erk{display:none}
+  details.grp>summary::after{content:""}
+  details.grp .body{display:block!important}
+  .fazit,.gebot{background:#fff!important;color:#000!important;border:1px solid #bbb}
+  .fazit h2,.fazit p,.fazit li,.fazit .stark,.gebot .sub,.gebot .val,.fazit p.vorl{color:#000!important}
+  .mtxwrap{overflow:visible}
+  a[href]::after{content:""}
+}
 </style>
 </head>
 <body>
@@ -190,36 +346,54 @@ svg .bind{stroke:var(--dim);stroke-dasharray:3 3;stroke-width:1}
   <div class="inner">
     <div class="hrow">
       <div class="txt">
-        <div class="eyebrow">Prüfstand · Kapitalanlage</div>
+        <div class="eyebrow" id="eyebrow">Prüfstand · Kapitalanlage</div>
         <div class="verdikt" id="verdikt">–</div>
         <div class="subline" id="subline">–</div>
       </div>
+      <button class="gear" id="btnProfil" title="Profil">⚙</button>
       <div class="ring" id="ring"></div>
     </div>
     <div class="chips" id="chips"></div>
-    <div class="tabs">
-      <button class="tab on" data-tab="v1">Angebot</button>
-      <button class="tab" data-tab="v2">Analyse</button>
-      <button class="tab" data-tab="v3">Fazit</button>
-    </div>
+    <div class="tabs" id="tabs"></div>
   </div>
 </header>
 
 <div class="wrap">
 
-<!-- ================= TAB 1 : ANGEBOT ================= -->
-<div class="view on" id="v1">
+<div id="work" class="on">
 
+<!-- ============ OBJEKT ============ -->
+<div class="view on" id="v1">
+  <div id="hinweise"></div>
+  <div id="stand"></div>
   <div class="card">
     <h2>Das Angebot</h2>
-    <p class="lead">Diese Zahlen stehen in fast jedem Inserat. Alles Weitere ist sinnvoll vorbelegt.</p>
+    <p class="lead">Die Zahlen aus dem Inserat. Gestrichelte Felder sind noch offen — bis du sie ausfüllst,
+    rechnet der Prüfstand dort mit einer Annahme. Der Rest kommt aus deinem Profil.</p>
     <div class="grid one" id="grid-kopf"></div>
+    <div class="grid" id="grid-status" style="margin-top:18px"></div>
     <div class="grid" id="grid-angebot" style="margin-top:18px"></div>
     <div class="btnrow">
       <button class="btn" id="btnSave">Objekt speichern</button>
+      <button class="btn sec" id="btnDup">Variante anlegen</button>
       <button class="btn sec" id="btnNeu">Neues Objekt</button>
+      <button class="btn sec" id="btnDel" style="border-color:var(--bad);color:var(--bad)">Löschen</button>
     </div>
     <div id="lsWarn"></div>
+    <div id="onb"></div>
+  </div>
+
+  <div class="card">
+    <h2>Notizen zur Besichtigung</h2>
+    <p class="lead">Was dir aufgefallen ist. Wird mit dem Objekt gespeichert.</p>
+    <textarea class="notiz" id="notiz" placeholder="Heizung Bj. 2009 · Bad renoviert · Nachbar erwähnt Feuchtigkeit im Keller · Vermieter will schnell verkaufen"></textarea>
+  </div>
+
+  <div class="card">
+    <h2>Vor dem Angebot</h2>
+    <p class="lead">Abhaken, was du geprüft hast. Wer hier vollständig ist, verhandelt aus einer anderen Position.</p>
+    <div class="prog"><div class="bar"><i id="chkBar"></i></div><b id="chkTxt"></b></div>
+    <div id="checkliste"></div>
   </div>
 
   <div class="card">
@@ -229,13 +403,12 @@ svg .bind{stroke:var(--dim);stroke-dasharray:3 3;stroke-width:1}
     <div id="lageErg"></div>
     <div class="linkrow" id="lageLinks"></div>
     <details class="erk"><summary>Warum das nicht automatisch geht</summary><div class="body">
-      Es gibt keine kostenlose Datenquelle, die aus einer Adresse verlässlich ein Wachstumspotenzial ableitet — und eine
+      Es gibt keine kostenlose Datenquelle, die aus einer Adresse verlässlich ein Wachstumspotenzial ableitet, und eine
       erfundene Zahl wäre schlimmer als keine. Die Links oben führen dich in zehn Minuten zu den echten Werten:
-      Bodenrichtwert, Mietspiegel, Einwohnerentwicklung. Danach beantwortest du die Fragen und hast eine belastbare
-      Einschätzung.</div></details>
+      Bodenrichtwert, Mietspiegel, Einwohnerentwicklung.</div></details>
   </div>
 
-  <div class="sect">Feineinstellungen</div>
+  <div class="sect">Nur für dieses Objekt anpassen</div>
 
   <details class="grp"><summary>Kaufnebenkosten &amp; Steuer</summary><div class="body">
     <div class="grid" id="grid-neben"></div>
@@ -247,6 +420,7 @@ svg .bind{stroke:var(--dim);stroke-dasharray:3 3;stroke-width:1}
 
   <details class="grp"><summary>Finanzierung</summary><div class="body">
     <div class="grid" id="grid-fin"></div>
+    <div id="zsInfo" style="margin-top:14px"></div>
     <div id="zinsTipp"></div>
     <details class="erk"><summary>Faustregel Zinsaufschlag</summary><div class="body">
       Je weniger eigenes Geld, desto teurer der Kredit. Auf den Bestzins kommen bei 90 % rund 0,2–0,4 Punkte,
@@ -255,16 +429,7 @@ svg .bind{stroke:var(--dim);stroke-dasharray:3 3;stroke-width:1}
     </div></details>
   </div></details>
 
-  <details class="grp"><summary>Euer Haushalt</summary><div class="body">
-    <div class="grid" id="grid-haus"></div>
-    <details class="erk"><summary>So rechnet die Bank</summary><div class="body">
-      Sie zählt euer Netto plus rund 75 % der Miete zusammen und zieht eine pauschale Lebenshaltung, eure eigene
-      Warmmiete, laufende Kreditraten und die neue Rate ab. Was übrig bleibt, muss klar positiv sein — sonst gibt es
-      keine Zusage, egal wie gut die Wohnung ist.
-    </div></details>
-  </div></details>
-
-  <details class="grp"><summary>Annahmen &amp; Sicherheitspuffer</summary><div class="body">
+  <details class="grp"><summary>Annahmen für dieses Objekt</summary><div class="body">
     <div class="grid" id="grid-ann"></div>
   </div></details>
 
@@ -275,8 +440,11 @@ svg .bind{stroke:var(--dim);stroke-dasharray:3 3;stroke-width:1}
   </div>
 </div>
 
-<!-- ================= TAB 2 : ANALYSE ================= -->
+<!-- ============ TAB 2 : ANALYSE ============ -->
 <div class="view" id="v2">
+  <div class="card sperre"><h2>Noch nicht bewertbar</h2>
+    <p class="lead" style="margin:0">Trag beim Objekt Kaufpreis, Wohnfläche und Miete ein. Danach erscheint hier die Rechnung.</p></div>
+  <div class="gebot" id="gebot"></div>
 
   <div class="card">
     <h2>Die Grenzen dieses Angebots</h2>
@@ -301,9 +469,8 @@ svg .bind{stroke:var(--dim);stroke-dasharray:3 3;stroke-width:1}
     <p class="lead">Ist die Wohnung ihr Geld wert?</p>
     <div class="stats" id="kennz"></div>
     <details class="erk"><summary>Was der Kaufpreisfaktor sagt</summary><div class="body">
-      Kaufpreis geteilt durch Jahreskaltmiete — also wie viele Jahresmieten die Wohnung kostet. Unter 22 funktioniert
-      eine Vollfinanzierung meist, ab 25 fast nie. In Wiesbaden liegt der Durchschnitt 2026 bei etwa 27 bis 28,
-      deshalb lohnt der Blick ins Umland.
+      Kaufpreis geteilt durch Jahreskaltmiete, also wie viele Jahresmieten die Wohnung kostet. Unter 22 funktioniert
+      eine Vollfinanzierung meist, ab 25 fast nie. In Wiesbaden liegt der Durchschnitt 2026 bei etwa 27 bis 28.
     </div></details>
   </div>
 
@@ -313,8 +480,8 @@ svg .bind{stroke:var(--dim);stroke-dasharray:3 3;stroke-width:1}
     <div id="chart"></div>
     <div class="stats" id="verlauf" style="margin-top:16px"></div>
     <details class="erk"><summary>Warum das wichtig ist</summary><div class="body">
-      Solange die rote Linie über der grünen liegt, könntet ihr bei einem Notverkauf die Schulden nicht tilgen —
-      ihr müsstet Geld mitbringen. Erst wenn sich die Linien kreuzen, seid ihr aus dem Risiko raus.
+      Solange die rote Linie über der grünen liegt, könntet ihr bei einem Notverkauf die Schulden nicht tilgen.
+      Erst wenn sich die Linien kreuzen, seid ihr aus dem Risiko raus.
     </div></details>
   </div>
 
@@ -326,37 +493,71 @@ svg .bind{stroke:var(--dim);stroke-dasharray:3 3;stroke-width:1}
   </div>
 
   <div class="card">
+    <h2>Einkauf und Potenzial</h2>
+    <p class="lead">Kaufst du unter Wert ein — und wie viel Miete liegt noch brach?</p>
+    <div id="einkauf"></div>
+  </div>
+
+  <div class="card">
+    <h2>Was am Notartermin fällig wird</h2>
+    <p class="lead">Auch bei einer Vollfinanzierung musst du in Vorleistung gehen.</p>
+    <div id="liq"></div>
+  </div>
+
+  <div class="card">
+    <h2>Blick nach vorn</h2>
+    <p class="lead">Wie dieser Kauf dein weiteres Wachstum beeinflusst.</p>
+    <div id="vorn"></div>
+  </div>
+
+  <div class="card">
+    <h2>Wenn es schiefgeht</h2>
+    <p class="lead">Fünf Szenarien und was sie mit eurer Rechnung machen.</p>
+    <div id="stress"></div>
+  </div>
+
+  <div class="card">
     <h2>Risikoprofil</h2>
     <p class="lead">Acht Faktoren, je grüner desto besser.</p>
     <div id="risk"></div>
   </div>
 </div>
 
-<!-- ================= TAB 3 : FAZIT ================= -->
+</div><!-- /work -->
+
+<!-- ============ VERGLEICH ============ -->
+<div class="view" id="v4">
+  <div class="card">
+    <h2>Rangliste</h2>
+    <p class="lead" id="vglLead">Alle gespeicherten Objekte im direkten Vergleich.</p>
+    <div class="sortbar" id="sortbar"></div>
+    <div id="rangliste"></div>
+  </div>
+
+  <div class="card" id="pfCard">
+    <h2>Dein Bestand</h2>
+    <p class="lead">Alle Objekte mit dem Status „Gekauft“ zusammengerechnet.</p>
+    <div id="portfolio"></div>
+  </div>
+
+  <div class="card" id="mtxCard">
+    <h2>Alle Kennzahlen nebeneinander</h2>
+    <p class="lead">Grün ist jeweils der beste Wert, rot der schwächste. Nach links wischen für weitere Objekte.</p>
+    <div class="mtxwrap"><div id="matrix"></div></div>
+  </div>
+</div>
+
+<!-- ============ TAB 3 : FAZIT ============ -->
 <div class="view" id="v3">
   <div class="fazit" id="fazit"></div>
-
+  <div class="btnrow"><button class="btn sec" id="btnPrint">Als PDF sichern oder drucken</button></div>
   <div class="card">
     <h2>Gespeicherte Objekte</h2>
     <p class="lead">Zum Laden antippen. Alles bleibt auf deinem Gerät.</p>
     <div id="objliste"></div>
-    <div id="cmptab"></div>
-    <details class="grp" style="margin-top:16px;border:0;box-shadow:none;background:transparent">
-      <summary style="padding-left:0;padding-right:0">Sicherung</summary>
-      <div class="body" style="padding-left:0;padding-right:0">
-        <p class="mini">Safari löscht Websitedaten, wenn du eine Seite mehrere Wochen nicht öffnest. Erzeuge nach jedem
-        neuen Objekt einmal den Sicherungstext und leg ihn in deinen Notizen ab.</p>
-        <textarea id="exp" placeholder="Sicherungstext"></textarea>
-        <div class="btnrow">
-          <button class="btn sec sm" id="btnExp">Text erzeugen</button>
-          <button class="btn sec sm" id="btnCopy">Kopieren</button>
-          <button class="btn sec sm" id="btnImp">Importieren</button>
-        </div>
-      </div>
-    </details>
   </div>
-
   <p class="mini" style="margin-top:18px">
+    <b style="font-family:var(--mono);font-weight:600">Fassung 2 · November 2026</b> ·
     Rechenmodell, keine Steuer- oder Anlageberatung. Grunderwerbsteuer Hessen 6 %. Zinsen, Mieten und Wertentwicklung
     sind Annahmen. Prüfe jedes Objekt zusätzlich mit Teilungserklärung, Wirtschaftsplan, Rücklagenstand und den
     WEG-Protokollen der letzten drei Jahre.
@@ -364,6 +565,71 @@ svg .bind{stroke:var(--dim);stroke-dasharray:3 3;stroke-width:1}
 </div>
 
 </div>
+
+<!-- ============ PROFIL-SHEET ============ -->
+<div class="sheet" id="sheet">
+  <div class="sheetin">
+    <div class="sheethd">
+      <h2>Dein Profil</h2>
+      <button class="btn sec sm" id="btnClose">Fertig</button>
+    </div>
+
+    <p class="mini">Diese Werte ändern sich nicht von Objekt zu Objekt. Sie werden dauerhaft gespeichert und bei jedem
+    neuen Objekt automatisch eingesetzt.</p>
+    <p class="mini" style="font-family:var(--mono)">Fassung 2 · November 2026 · Radar-Anbindung</p>
+
+    <div class="card">
+      <h2>Einkommen &amp; Haushalt</h2>
+      <div class="grid" id="pf-haus"></div>
+    </div>
+
+    <div class="card">
+      <h2>Finanzierungsstandard</h2>
+      <div class="grid" id="pf-fin"></div>
+    </div>
+
+    <div class="card">
+      <h2>Nebenkosten &amp; Steuer</h2>
+      <div class="grid" id="pf-neben"></div>
+    </div>
+
+    <div class="card">
+      <h2>Standardannahmen</h2>
+      <div class="grid" id="pf-ann"></div>
+    </div>
+
+    <div class="btnrow">
+      <button class="btn" id="btnApply">Auf aktuelles Objekt übertragen</button>
+    </div>
+
+    <div class="card">
+      <h2>Sicherung</h2>
+      <p class="lead">Es gibt keinen Server und kein Konto. Deine Objekte liegen nur in diesem Browser, und Safari
+      räumt Websitedaten auf, wenn du eine Seite etwa eine Woche lang nicht benutzt. Die Sicherung ist eine kleine
+      Datei, die du in „Dateien“ ablegst.</p>
+      <div class="mini" id="sichInfo" style="margin:0 0 4px"></div>
+      <div class="btnrow">
+        <button class="btn" id="btnSich">Sicherung speichern</button>
+        <button class="btn sec" id="btnLade">Sicherung laden</button>
+      </div>
+      <input type="file" id="fileImp" accept=".txt,.json,text/plain,application/json" style="display:none">
+      <p class="mini">Laden ersetzt nichts: Objekte aus der Datei kommen dazu, gleiche Objekte werden auf den
+      neueren Stand gebracht.</p>
+      <details class="erk"><summary>Umzug in einen anderen Browser oder auf ein anderes Gerät</summary><div class="body">
+        „Als Link“ erzeugt eine Adresse, die alle Daten enthält. Kopieren, im anderen Browser in die Adresszeile
+        einfügen, öffnen — fertig. Alternativ den Code kopieren und drüben einlesen.
+        <textarea id="exp" placeholder="Code oder Link"></textarea>
+        <div class="btnrow">
+          <button class="btn sec sm" id="btnLink">Als Link</button>
+          <button class="btn sec sm" id="btnExp">Als Code</button>
+          <button class="btn sec sm" id="btnCopy">Kopieren</button>
+          <button class="btn sec sm" id="btnImp">Einlesen</button>
+        </div>
+      </div></details>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
 <script>
 /* ============ Formatierung ============ */
 const nf0=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',maximumFractionDigits:0});
@@ -373,6 +639,10 @@ const nm=(n,d=1)=>isFinite(n)?n.toFixed(d).replace('.',','):'–';
 const cl=(v,a,b)=>Math.max(a,Math.min(b,isFinite(v)?v:b));
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const $=id=>document.getElementById(id);
+const kopie=o=>JSON.parse(JSON.stringify(o));
+let toastTimer=null;
+function toast(t){const e=$('toast'); if(!e)return; e.textContent=t; e.classList.add('on');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>e.classList.remove('on'),2600)}
 
 /* ============ Speicher ============ */
 const LS={ok:true,
@@ -381,19 +651,95 @@ const LS={ok:true,
 
 /* ============ Parameter ============ */
 const START={
-  name:'Neues Objekt', adresse:'',
-  kaufpreis:185000, wohnflaeche:62, baujahr:1972, zustand:'teilsaniert', kaltmiete:720, hausgeld:260,
+  name:'Neues Objekt', adresse:'', status:'beobachten', notiz:'', check:{},
+  ort:'', plz:'', quelle:'', rk:'', portal:'', titel:'', zimmer:0, vn:0, grob:false,
+  offen:[], auto:[], zinsAuto:false, bearbeitet:false,
+  kaufpreis:185000, wohnflaeche:62, baujahr:1972, zustand:'teilsaniert', kaltmiete:720, marktmiete:0, hausgeld:260, vergleichspreis:0,
   l1:1,l2:1,l3:1,l4:1,l5:1,l6:1,l7:1,
   grest:6.0, notar:2.0, makler:3.57, bodenanteil:20, afaSatz:2.0,
   hausgeldNUAnteil:35, ruecklageEigen:1.2, mietausfall:3, mietsteigerung:1.5,
-  eigenkapital:4000, basiszins:3.7, zins:4.6, tilgung:2.0, zinsbindung:20, sonder:0,
+  eigenkapital:4000, zsTyp:'keine', zsWert:0, zsQuote:60, basiszins:3.7, zins:4.6, tilgung:2.0, zinsbindung:20, sonder:0,
   netto:3200, netto2:0, lebenshaltung:1050, eigeneWarmmiete:660, weitereRaten:500,
-  grenzsteuer:37, zuschuss:500,
+  grenzsteuer:37, zuschuss:500, alter:30,
   wertsteigerung:1.0, anschlusszins:5.5, reserve:13000, verkaufskosten:4.0
 };
-let P=Object.assign({},START);
+/* Welche Werte gehören ins Profil und nicht zum einzelnen Objekt */
+const PF={
+ 'pf-haus':['netto','netto2','lebenshaltung','eigeneWarmmiete','weitereRaten','zuschuss','reserve','alter'],
+ 'pf-fin':['eigenkapital','basiszins','tilgung','zinsbindung','sonder','ruecklageEigen'],
+ 'pf-neben':['grest','notar','makler','bodenanteil','afaSatz','grenzsteuer'],
+ 'pf-ann':['mietausfall','hausgeldNUAnteil','anschlusszins','mietsteigerung','wertsteigerung','verkaufskosten']
+};
+const PFKEYS=[].concat.apply([],Object.values(PF));
+
+/* Angaben, die offen sein dürfen: sichtbar markiert, bis dahin mit Annahme gerechnet */
+const LKEYS=['l1','l2','l3','l4','l5','l6','l7'];
+const OKEYS=['kaufpreis','wohnflaeche','kaltmiete','hausgeld','baujahr','zustand'];
+const OFFENBAR=OKEYS.concat(LKEYS);
+const POSITIV=['kaufpreis','wohnflaeche','kaltmiete','baujahr'];
+const ONAME={kaufpreis:'Kaufpreis',wohnflaeche:'Wohnfläche',kaltmiete:'Ist-Miete',hausgeld:'Hausgeld',baujahr:'Baujahr',zustand:'Zustand'};
+function istOffen(p,k){return Array.isArray(p.offen)&&p.offen.indexOf(k)>=0}
+function setOffen(k,an){
+  const a=(P.offen||[]).filter(x=>x!==k); if(an) a.push(k); P.offen=a;
+  P.auto=(P.auto||[]).filter(x=>x!==k);
+}
+function kernFehlt(p){return istOffen(p,'kaufpreis')||istOffen(p,'wohnflaeche')||(istOffen(p,'kaltmiete')&&!(p.marktmiete>0))}
+function offenListe(p){
+  const o=Array.isArray(p.offen)?p.offen:[], out=[];
+  OKEYS.forEach(k=>{if(o.indexOf(k)>=0) out.push({k:k,n:ONAME[k]})});
+  const nl=LKEYS.filter(k=>o.indexOf(k)>=0);
+  if(nl.length) out.push({k:nl[0],n:nl.length<7?'Standort ('+nl.length+' Fragen)':'Standort'});
+  return out;
+}
+/* Setzt für offene Angaben die Rechenannahme ein */
+function annahmen(p){
+  const o=Array.isArray(p.offen)?p.offen:[], has=k=>o.indexOf(k)>=0;
+  if(has('kaufpreis')) p.kaufpreis=150000;
+  if(has('wohnflaeche')) p.wohnflaeche=60;
+  if(has('kaltmiete')) p.kaltmiete=p.marktmiete>0?p.marktmiete:Math.round(p.wohnflaeche*1.1)*10;
+  if(has('hausgeld')) p.hausgeld=Math.round(p.wohnflaeche*4.2/5)*5;
+  if(has('baujahr')) p.baujahr=1975;
+  if(has('zustand')) p.zustand='teilsaniert';
+  LKEYS.forEach(k=>{if(has(k)) p[k]=1});
+  if(p.zinsAuto){
+    const r0=calc(p);
+    p.zins=Math.round(zinsVorschlag(p,r0.sicherheit>0?r0.effBeleihung:r0.beleihung)*100)/100;
+  }
+}
+function annahmeText(p){
+  const t=[];
+  if(istOffen(p,'kaltmiete')) t.push('Miete '+eur(p.kaltmiete)+' (geschätzte Marktmiete)');
+  if(istOffen(p,'hausgeld')) t.push('Hausgeld '+eur(p.hausgeld));
+  if(istOffen(p,'baujahr')) t.push('Baujahr '+p.baujahr);
+  if(istOffen(p,'zustand')) t.push('Zustand teilsaniert');
+  if(LKEYS.some(k=>istOffen(p,k))) t.push('Standort durchschnittlich');
+  return t.join(' · ');
+}
+
+function leeresProfil(){const o={};PFKEYS.forEach(k=>o[k]=START[k]);return o}
+let profil=Object.assign(leeresProfil(),LS.get('pruefstand.profil',{}));
+function frisch(){return kopie(Object.assign({},START,profil))}
+function leer(){const p=frisch(); p.name=''; p.offen=OFFENBAR.slice(); p.zinsAuto=true; return p}
+function autoName(p){return ((p.adresse||p.ort||'Objekt')+' · '+Math.round(p.wohnflaeche)+' m²').trim()}
+let P=leer();
+let FREMD=false;   /* Radar-Link in einem Browser geöffnet, der den Prüfstand noch nicht kennt */
+let CACHE=null;
+const STANDALONE=(window.navigator.standalone===true)||(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches);
 let objekte=LS.get('pruefstand.objekte',[]);
 let aktivId=LS.get('pruefstand.aktiv',null);
+let sortKey='score';
+let saveTimer=null;
+
+const STATUS=[['beobachten','Beobachten','b1'],['besichtigt','Besichtigt','b2'],
+              ['angebot','Angebot abgegeben','b2'],['gekauft','Gekauft','b3'],['abgesagt','Abgesagt','b4']];
+const CHECKS=[
+ 'Wirtschaftsplan angefordert','Stand der Instandhaltungsrücklage erfragt',
+ 'WEG-Protokolle der letzten drei Jahre gelesen','Teilungserklärung geprüft',
+ 'Energieausweis erhalten','Aktuellen Mietvertrag und Mietkonto geprüft',
+ 'Alter und Art der Heizung notiert','Zustand von Dach, Fassade und Leitungen erfragt',
+ 'Objekt einmal abends vor Ort angesehen','Mietspiegel der Gemeinde verglichen',
+ 'Bodenrichtwert nachgeschlagen','Finanzierungsbestätigung der Bank eingeholt'
+];
 
 /* ============ Felddefinitionen ============ */
 const LAGE=[
@@ -408,115 +754,203 @@ const LAGE=[
  ['l5','Arbeitsplätze und Kaufkraft in der Region',['schwach','durchschnittlich','stark'],
   'Große Arbeitgeber in Pendeldistanz stabilisieren die Nachfrage. Rüsselsheim, Hochheim und Kastel profitieren vom Frankfurter Arbeitsmarkt.'],
  ['l6','Die Mikrolage der Wohnung selbst',['Hauptstraße, Bahnlinie oder Gewerbe daneben','normales Wohngebiet','ruhige, gefragte Wohnlage'],
-  'Zwei Straßen können sich im Preis um 20 Prozent unterscheiden. Schau die Umgebung auf der Karte und in der Straßenansicht an, und einmal abends persönlich.'],
+  'Zwei Straßen können sich im Preis um 20 Prozent unterscheiden. Schau die Umgebung auf der Karte an, und einmal abends persönlich.'],
  ['l7','Zu Fuß erreichbar: Supermarkt, Haltestelle, Kita, Arzt',['wenig davon','das meiste','alles'],
   'Für die Vermietbarkeit an Familien und Ältere entscheidend, und der erste Punkt, den Mietinteressenten prüfen.']
 ];
 
-/* [key, Label, Einheit, step, Hilfe, Typ, Slider[min,max,step]] */
-const FELDER={
- 'grid-kopf':[
-  ['name','Bezeichnung','',null,'Wie du dieses Objekt wiedererkennst, etwa „Gustavsburg 2Z Balkon“.','text'],
-  ['adresse','Adresse oder Ort','',null,'Nur zur Zuordnung und für die Recherche-Links. Es wird nichts übertragen, alles bleibt auf deinem Gerät.','text']
- ],
- 'grid-angebot':[
-  ['kaufpreis','Kaufpreis','€',1000,'Der Preis aus dem Inserat. Verhandlungsspielraum liegt im Bestand meist bei 3 bis 8 Prozent.',null,[50000,600000,2500]],
-  ['kaltmiete','Kaltmiete','€/M',10,'Miete ohne Nebenkosten. Bei vermieteten Wohnungen steht sie als Ist-Miete im Inserat. Fehlt sie, rechne mit dem örtlichen Mietspiegel mal Wohnfläche.',null,[200,2500,10]],
-  ['wohnflaeche','Wohnfläche','m²',1,'Zur Einordnung der Quadratmeterpreise und für deine Instandhaltungsrücklage.'],
-  ['hausgeld','Hausgeld','€/M',10,'Was die Hausverwaltung monatlich einzieht. Ein Teil davon legst du auf den Mieter um, der Rest bleibt an dir hängen.'],
-  ['baujahr','Baujahr','',1,'Bestimmt zwei Dinge: das Risiko teurer Sanierungen und den Abschreibungssatz beim Finanzamt.'],
-  ['zustand','Zustand','',null,'Saniert heißt: Dach, Fassade, Heizung und Leitungen sind in den letzten 15 Jahren gemacht worden. Steht das nicht im Inserat, ist es meistens nicht saniert.']
- ],
- 'grid-neben':[
-  ['grest','Grunderwerbsteuer','%',0.5,'In Hessen 6,0 Prozent. Wird vier bis acht Wochen nach dem Notartermin fällig und kann nicht gestundet werden.'],
-  ['notar','Notar &amp; Grundbuch','%',0.1,'Rund 1,5 bis 2,0 Prozent. Pflicht, nicht verhandelbar.'],
-  ['makler','Maklercourtage','%',0.1,'Dein Anteil. Bei provisionsfreien Angeboten 0 eintragen, das spart sofort mehrere tausend Euro Schulden.'],
-  ['bodenanteil','Bodenanteil','%',1,'Der Grundstücksanteil am Kaufpreis. Auf Grund und Boden gibt es keine Abschreibung. Je niedriger, desto mehr Steuern sparst du. Lass ihn im Kaufvertrag ausweisen.'],
-  ['afaSatz','Abschreibung','%',0.5,'2,0 Prozent jährlich ab Baujahr 1925, 2,5 davor. Das Finanzamt tut so, als verliere das Gebäude jährlich diesen Anteil an Wert. Das mindert die Steuerlast, ohne dass Geld abfließt.'],
-  ['grenzsteuer','Grenzsteuersatz','%',1,'Der Steuersatz auf deinen zuletzt verdienten Euro. Bei A10 ledig grob zwischen 33 und 39 Prozent. Er bestimmt, wie viel dir das Finanzamt von einem Verlust zurückgibt.']
- ],
- 'grid-fin':[
-  ['eigenkapital','Eigenes Geld','€',1000,'Was du wirklich einbringst. 0 bedeutet: die Bank finanziert auch die Nebenkosten. Das nennt man 110-Prozent-Finanzierung.',null,[0,120000,1000]],
-  ['basiszins','Bestzins am Markt','%',0.1,'Der beste Zins, den es gerade gibt, für zehn Jahre und viel Eigenkapital. Stand August 2026 rund 3,3 bis 3,8 Prozent. Daraus errechnet das Tool, was für dich realistisch ist.'],
-  ['zins','Dein Sollzins','%',0.1,'Was du tatsächlich zahlst. Nimm den Vorschlag darunter, solange du kein echtes Angebot hast.',null,[2,8,0.05]],
-  ['tilgung','Anfangstilgung','%',0.25,'Wie schnell du zurückzahlst. 2 Prozent heißt rund 33 Jahre bis schuldenfrei. Weniger als 2 ist bei einer Vollfinanzierung fahrlässig.',null,[1,5,0.25]],
-  ['zinsbindung','Zinsbindung','Jahre',1,'Wie lange der Zins garantiert ist. Nach zehn Jahren darfst du gesetzlich immer kündigen, eine lange Bindung kostet dich also nur Aufschlag, kein Risiko.',null,[5,30,1]],
-  ['sonder','Sondertilgung','€/Jahr',500,'Zusätzliche Rückzahlung. Meist sind 5 Prozent der Darlehenssumme jährlich kostenlos möglich. Lass dir das im Vertrag geben, auch wenn du es erst später nutzt.'],
-  ['ruecklageEigen','Eigene Rücklage','€/m²',0.1,'Was du zusätzlich zur Rücklage der Eigentümergemeinschaft monatlich zurücklegst, für Küche, Bad, Böden, Mieterwechsel. 1,00 bis 1,50 Euro je m² ist realistisch.']
- ],
- 'grid-haus':[
-  ['netto','Dein Nettoeinkommen','€/M',50,'Was monatlich auf deinem Konto landet.'],
-  ['netto2','Zweites Einkommen','€/M',50,'Nettoeinkommen deiner Partnerin, falls ihr gemeinsam finanziert. Wichtig: Wer im Kreditvertrag steht, sollte im gleichen Verhältnis im Grundbuch stehen. Sonst haftet sie voll für etwas, das ihr nicht gehört.'],
-  ['lebenshaltung','Lebenshaltung','€/M',50,'Pauschale der Bank. Single 900 bis 1.200 Euro, Paar 1.500 bis 1.700, nicht das Doppelte. Eure tatsächlichen Ausgaben spielen keine Rolle.'],
-  ['eigeneWarmmiete','Eure Warmmiete','€/M',10,'Was ihr selbst wohnt. Bleibt in der Rechnung, solange ihr nicht selbst einzieht.'],
-  ['weitereRaten','Andere Kreditraten','€/M',50,'Alle laufenden Raten. Setz hier 0 ein, um zu sehen, was die Ablösung deines Privatkredits bringt.'],
-  ['zuschuss','Monatlicher Zuschuss, den ihr leisten könnt','€/M',50,'Der wichtigste Wert der ganzen Rechnung. Eine Wohnung ohne Eigenkapital wirft fast nie von Anfang an Geld ab. Ihr schießt monatlich zu und tilgt damit Schulden. Trag ein, was dauerhaft geht, ohne dass es weh tut. Alle Grenzwerte werden dagegen gerechnet.',null,[0,1500,50]],
-  ['mietausfall','Mietausfallwagnis','%',0.5,'Sicherheitsabschlag für Leerstand und säumige Mieter. 2 bis 4 Prozent sind üblich.'],
-  ['hausgeldNUAnteil','Hausgeld nicht umlegbar','%',1,'Der Anteil, den du nicht auf den Mieter umlegen darfst: Verwaltervergütung, Instandhaltungsrücklage, Bankgebühren. Meist 25 bis 40 Prozent. Steht genau im Wirtschaftsplan.']
- ],
- 'grid-ann':[
-  ['reserve','Reserve nach dem Kauf','€',1000,'Was nach Notartermin und Nebenkosten noch flüssig ist: Tagesgeld plus ETF. Nicht was du heute hast, sondern was übrig bleibt. Das ist euer einziger Airbag.',null,[0,60000,1000]],
-  ['anschlusszins','Erwarteter Anschlusszins','%',0.25,'Womit du nach Ende der Zinsbindung rechnest. Rechne konservativ, 5,5 bis 6,5 Prozent ist keine Panikannahme, sondern der langjährige Durchschnitt.'],
-  ['mietsteigerung','Mietsteigerung','%/Jahr',0.25,'Wie stark die Miete jährlich wächst. In laufenden Mietverhältnissen bremsen Kappungsgrenzen, 1,0 bis 2,0 Prozent sind realistisch.'],
-  ['wertsteigerung','Wertsteigerung','%/Jahr',0.25,'Wie stark der Wohnungswert wächst. Der Standort-Check schlägt dir einen passenden Wert vor.'],
-  ['verkaufskosten','Verkaufskosten','%',0.5,'Makler, Notar, Vorfälligkeitsentschädigung beim Verkauf. 3 bis 5 Prozent sind realistisch.']
- ]
+/* key: [Label, Einheit, step, Hilfe, Typ, Slider] */
+const META={
+ name:['Bezeichnung','',null,'Wie du dieses Objekt wiedererkennst, etwa „Gustavsburg 2Z Balkon“.','text'],
+ adresse:['Adresse oder Ort','',null,'Nur zur Zuordnung und für die Recherche-Links. Es wird nichts übertragen, alles bleibt auf deinem Gerät.','text'],
+ kaufpreis:['Kaufpreis','€',1000,'Der Preis aus dem Inserat. Verhandlungsspielraum liegt im Bestand meist bei 3 bis 8 Prozent.',null,[50000,600000,2500]],
+ kaltmiete:['Kaltmiete','€/M',10,'Miete ohne Nebenkosten. Bei vermieteten Wohnungen steht sie als Ist-Miete im Inserat. Fehlt sie, rechne mit dem örtlichen Mietspiegel mal Wohnfläche.',null,[200,2500,10]],
+ wohnflaeche:['Wohnfläche','m²',1,'Zur Einordnung der Quadratmeterpreise und für deine Instandhaltungsrücklage.'],
+ marktmiete:['Marktmiete laut Mietspiegel','€/M',10,'Was die Wohnung im Neuvermietungsfall bringen würde. 0 eintragen, wenn du es nicht weißt. Liegt die Ist-Miete deutlich darunter, ist das kein Mangel, sondern der Hebel: Bei Mieterwechsel oder nach einer Modernisierung holst du die Differenz.'],
+ vergleichspreis:['Vergleichspreis je m²','€',50,'Was vergleichbare Wohnungen im selben Ort kosten. Nachschauen: gleiche Gemeinde auf ImmoScout filtern, drei bis fünf ähnliche Objekte, Mittelwert bilden. 0 eintragen, wenn unbekannt. Das ist die wichtigste Zahl überhaupt: Wer unter Marktwert einkauft, hat die Rendite am Tag des Notartermins schon verdient.'],
+ alter:['Dein Alter','Jahre',1,'Banken schauen, ob der Kredit vor dem Ruhestand getilgt ist. Als Beamter gehst du regulär mit 67 in Pension.'],
+ hausgeld:['Hausgeld','€/M',10,'Was die Hausverwaltung monatlich einzieht. Ein Teil davon legst du auf den Mieter um, der Rest bleibt an dir hängen.'],
+ baujahr:['Baujahr','',1,'Bestimmt zwei Dinge: das Risiko teurer Sanierungen und den Abschreibungssatz beim Finanzamt.'],
+ zustand:['Zustand','',null,'Saniert heißt: Dach, Fassade, Heizung und Leitungen sind in den letzten 15 Jahren gemacht worden. Steht das nicht im Inserat, ist es meistens nicht saniert.','select',
+   [['saniert','saniert'],['teilsaniert','teilsaniert'],['unsaniert','unsaniert']]],
+ zsTyp:['Zusätzliche Sicherheit','',null,'Wenn jemand aus der Familie eine lastenfreie Immobilie oder eine Bürgschaft stellt, rechnet die Bank das mit an. Der Beleihungsauslauf sinkt rechnerisch, und damit der Zins — ohne dass du einen Euro Eigenkapital brauchst. Das ist der stärkste Hebel, den es für einen Kauf ohne Eigenkapital gibt.','select',
+   [['keine','keine'],['grundschuld','Grundschuld auf fremder Immobilie'],['buergschaft','Bürgschaft einer Person']]],
+ zsWert:['Wert der Sicherheit','€',5000,'Bei einer Grundschuld: der Verkehrswert der fremden Immobilie, soweit sie lastenfrei ist. Bei einer Bürgschaft: der Höchstbetrag, für den gebürgt wird. Lass eine Bürgschaft immer auf einen Höchstbetrag begrenzen und schriftlich festhalten, ab welchem Tilgungsstand sie freigegeben wird.',null,[0,600000,10000]],
+ zsQuote:['Davon angerechnet','%',5,'Banken rechnen eine fremde Sicherheit nicht voll an. Bei einer nachrangigen Grundschuld auf einer fremden Immobilie sind 50 bis 70 Prozent üblich, bei einer reinen Bürgschaft oft deutlich weniger oder gar nichts — dort zählt vor allem die Bonität des Bürgen. Frag deine Bank nach ihrer Quote.'],
+ grest:['Grunderwerbsteuer','%',0.5,'In Hessen 6,0 Prozent. Wird vier bis acht Wochen nach dem Notartermin fällig und kann nicht gestundet werden.'],
+ notar:['Notar &amp; Grundbuch','%',0.1,'Rund 1,5 bis 2,0 Prozent. Pflicht, nicht verhandelbar.'],
+ makler:['Maklercourtage','%',0.1,'Dein Anteil. Bei provisionsfreien Angeboten 0 eintragen, das spart sofort mehrere tausend Euro Schulden.'],
+ bodenanteil:['Bodenanteil','%',1,'Der Grundstücksanteil am Kaufpreis. Auf Grund und Boden gibt es keine Abschreibung. Je niedriger, desto mehr Steuern sparst du. Lass ihn im Kaufvertrag ausweisen.'],
+ afaSatz:['Abschreibung','%',0.5,'2,0 Prozent jährlich ab Baujahr 1925, 2,5 davor. Das Finanzamt tut so, als verliere das Gebäude jährlich diesen Anteil an Wert. Das mindert die Steuerlast, ohne dass Geld abfließt.'],
+ grenzsteuer:['Grenzsteuersatz','%',1,'Der Steuersatz auf deinen zuletzt verdienten Euro. Bei A10 ledig grob zwischen 33 und 39 Prozent. Er bestimmt, wie viel dir das Finanzamt von einem Verlust zurückgibt.'],
+ eigenkapital:['Eigenes Geld','€',1000,'Was du wirklich einbringst. 0 bedeutet: die Bank finanziert auch die Nebenkosten. Das nennt man 110-Prozent-Finanzierung.',null,[0,120000,1000]],
+ basiszins:['Bestzins am Markt','%',0.1,'Der beste Zins, den es gerade gibt, für zehn Jahre und viel Eigenkapital. Stand August 2026 rund 3,3 bis 3,8 Prozent. Daraus errechnet das Tool, was für dich realistisch ist.'],
+ zins:['Dein Sollzins','%',0.1,'Was du tatsächlich zahlst. Nimm den Vorschlag darunter, solange du kein echtes Angebot hast.',null,[2,8,0.05]],
+ tilgung:['Anfangstilgung','%',0.25,'Wie schnell du zurückzahlst. 2 Prozent heißt rund 33 Jahre bis schuldenfrei. Weniger als 2 ist bei einer Vollfinanzierung fahrlässig.',null,[1,5,0.25]],
+ zinsbindung:['Zinsbindung','Jahre',1,'Wie lange der Zins garantiert ist. Nach zehn Jahren darfst du gesetzlich immer kündigen, eine lange Bindung kostet dich also nur Aufschlag, kein Risiko.',null,[5,30,1]],
+ sonder:['Sondertilgung','€/Jahr',500,'Zusätzliche Rückzahlung. Meist sind 5 Prozent der Darlehenssumme jährlich kostenlos möglich. Lass dir das im Vertrag geben, auch wenn du es erst später nutzt.'],
+ ruecklageEigen:['Eigene Rücklage','€/m²',0.1,'Was du zusätzlich zur Rücklage der Eigentümergemeinschaft monatlich zurücklegst, für Küche, Bad, Böden, Mieterwechsel. 1,00 bis 1,50 Euro je m² ist realistisch.'],
+ netto:['Dein Nettoeinkommen','€/M',50,'Was monatlich auf deinem Konto landet.'],
+ netto2:['Zweites Einkommen','€/M',50,'Nettoeinkommen deiner Partnerin, falls ihr gemeinsam finanziert. Wichtig: Wer im Kreditvertrag steht, sollte im gleichen Verhältnis im Grundbuch stehen. Sonst haftet sie voll für etwas, das ihr nicht gehört.'],
+ lebenshaltung:['Lebenshaltung','€/M',50,'Pauschale der Bank. Single 900 bis 1.200 Euro, Paar 1.500 bis 1.700, nicht das Doppelte. Eure tatsächlichen Ausgaben spielen keine Rolle.'],
+ eigeneWarmmiete:['Eure Warmmiete','€/M',10,'Was ihr selbst wohnt. Bleibt in der Rechnung, solange ihr nicht selbst einzieht.'],
+ weitereRaten:['Andere Kreditraten','€/M',50,'Alle laufenden Raten. Setz hier 0 ein, um zu sehen, was die Ablösung deines Privatkredits bringt.'],
+ zuschuss:['Monatlicher Zuschuss, den ihr leisten könnt','€/M',50,'Der wichtigste Wert der ganzen Rechnung. Eine Wohnung ohne Eigenkapital wirft fast nie von Anfang an Geld ab. Ihr schießt monatlich zu und tilgt damit Schulden. Trag ein, was dauerhaft geht, ohne dass es weh tut. Alle Grenzwerte werden dagegen gerechnet.',null,[0,1500,50]],
+ mietausfall:['Mietausfallwagnis','%',0.5,'Sicherheitsabschlag für Leerstand und säumige Mieter. 2 bis 4 Prozent sind üblich.'],
+ hausgeldNUAnteil:['Hausgeld nicht umlegbar','%',1,'Der Anteil, den du nicht auf den Mieter umlegen darfst: Verwaltervergütung, Instandhaltungsrücklage, Bankgebühren. Meist 25 bis 40 Prozent. Steht genau im Wirtschaftsplan.'],
+ reserve:['Reserve nach dem Kauf','€',1000,'Was nach Notartermin und Nebenkosten noch flüssig ist: Tagesgeld plus ETF. Nicht was du heute hast, sondern was übrig bleibt. Das ist euer einziger Airbag.',null,[0,60000,1000]],
+ anschlusszins:['Erwarteter Anschlusszins','%',0.25,'Womit du nach Ende der Zinsbindung rechnest. Rechne konservativ, 5,5 bis 6,5 Prozent ist keine Panikannahme, sondern der langjährige Durchschnitt.'],
+ mietsteigerung:['Mietsteigerung','%/Jahr',0.25,'Wie stark die Miete jährlich wächst. In laufenden Mietverhältnissen bremsen Kappungsgrenzen, 1,0 bis 2,0 Prozent sind realistisch.'],
+ wertsteigerung:['Wertsteigerung','%/Jahr',0.25,'Wie stark der Wohnungswert wächst. Der Standort-Check schlägt dir einen passenden Wert vor.'],
+ verkaufskosten:['Verkaufskosten','%',0.5,'Makler, Notar, Vorfälligkeitsentschädigung beim Verkauf. 3 bis 5 Prozent sind realistisch.']
+};
+const GRUPPEN={
+ 'grid-kopf':['name','adresse'],
+ 'grid-angebot':['kaufpreis','kaltmiete','wohnflaeche','hausgeld','baujahr','zustand','marktmiete','vergleichspreis'],
+ 'grid-neben':['grest','notar','makler','bodenanteil','afaSatz','grenzsteuer'],
+ 'grid-fin':['eigenkapital','zsTyp','zsWert','zsQuote','basiszins','zins','tilgung','zinsbindung','sonder','ruecklageEigen'],
+ 'grid-ann':['mietausfall','hausgeldNUAnteil','reserve','anschlusszins','mietsteigerung','wertsteigerung','verkaufskosten']
 };
 
 /* ============ Felder rendern ============ */
-function feld(k,lab,suf,step,help,typ,rng){
-  let inp;
-
-  if(k==='zustand'){ suf='▾'; inp='<select data-k="'+k+'"><option value="saniert">saniert</option><option value="teilsaniert">teilsaniert</option><option value="unsaniert">unsaniert</option></select>'; }
-  else if(typ==='text') inp='<input type="text" data-k="'+k+'" value="'+esc(P[k]||'')+'">';
-  else inp='<input type="number" inputmode="decimal" data-k="'+k+'" step="'+step+'" value="'+P[k]+'">';
-  const slider = rng ? '<input type="range" data-r="'+k+'" min="'+rng[0]+'" max="'+rng[1]+'" step="'+rng[2]+'" value="'+P[k]+'">' : '';
-  return '<label class="f"><span class="lab">'+lab+'<span class="q" data-help="'+k+'">?</span></span>'+
+function feld(k,ziel){
+  const m=META[k]; if(!m) return '';
+  const [lab,suf0,step,help,typ,rng]=m;
+  const src = ziel==='pf' ? profil : P;
+  const at = ziel==='pf' ? 'data-pk' : 'data-k';
+  const id = ziel==='pf' ? 'hp-'+k : 'h-'+k;
+  let inp,suf=suf0;
+  const kannOffen = ziel!=='pf' && OFFENBAR.indexOf(k)>=0;
+  const ph = k==='name'?'z. B. Gustavsburg 2Z Balkon' : k==='adresse'?'PLZ und Ort oder Straße':'';
+  if(typ==='select'){suf='▾';inp='<select '+at+'="'+k+'">'+(kannOffen?'<option value="">– bitte wählen –</option>':'')+rng.map(o=>'<option value="'+o[0]+'">'+o[1]+'</option>').join('')+'</select>'}
+  else if(typ==='text') inp='<input type="text" '+at+'="'+k+'" value="'+esc(src[k]||'')+'" placeholder="'+ph+'">';
+  else inp='<input type="number" inputmode="decimal" '+at+'="'+k+'" step="'+step+'" value="'+src[k]+'">';
+  const slider = (rng&&typ!=='select'&&ziel!=='pf') ? '<input type="range" data-r="'+k+'" min="'+rng[0]+'" max="'+rng[1]+'" step="'+rng[2]+'" value="'+P[k]+'">' : '';
+  return '<label class="f"'+(ziel!=='pf'?' data-f="'+k+'"':'')+'><span class="lab">'+lab+'<span class="q" data-help="'+id+'">?</span>'+
+    (ziel!=='pf'?'<span class="tg to">offen</span><span class="tg tr">Radar</span>':'')+'</span>'+
     '<span class="row">'+inp+(suf?'<span class="suf">'+suf+'</span>':'')+'</span>'+slider+
-    '<span class="help" id="h-'+k+'">'+help+'</span></label>';
+    '<span class="help" id="'+id+'">'+help+'</span></label>';
+}
+function geaendert(){LS.set('pruefstand.geaendert',Date.now())}
+function touch(){
+  P.bearbeitet=true;
+  LS.set('pruefstand.draft',P);
+  if(!aktivId) return;
+  clearTimeout(saveTimer);
+  const id=aktivId;
+  saveTimer=setTimeout(()=>{
+    if(id!==aktivId) return;
+    const i=objekte.findIndex(o=>o.id===id);
+    if(i>=0){objekte[i]={id:id,name:P.name||autoName(P),ts:Date.now(),p:kopie(P)};
+      LS.set('pruefstand.objekte',objekte);geaendert();CACHE=null;renderListe();merkeZeit();}
+  },500);
 }
 function baueFelder(){
-  for(const [id,liste] of Object.entries(FELDER)){
-    const el=$(id); if(el) el.innerHTML=liste.map(a=>feld.apply(null,a)).join('');
+  $('grid-status').innerHTML=
+    '<label class="f"><span class="lab">Status</span><span class="row"><select id="selStatus">'+
+    STATUS.map(s=>'<option value="'+s[0]+'">'+s[1]+'</option>').join('')+
+    '</select><span class="suf">▾</span></span></label>'+
+    '<label class="f"><span class="lab">Gespeichert</span><span class="row"><span id="saveInfo" style="font-family:var(--mono);font-size:13px;color:var(--dim);padding:5px 0">–</span></span></label>';
+  for(const [id,keys] of Object.entries(GRUPPEN)){
+    const el=$(id); if(el) el.innerHTML=keys.map(k=>feld(k,'obj')).join('');
+  }
+  for(const [id,keys] of Object.entries(PF)){
+    const el=$(id); if(el) el.innerHTML=keys.map(k=>feld(k,'pf')).join('');
   }
   $('grid-lage').innerHTML=LAGE.map(([k,frage,opts,help])=>
-    '<label class="f"><span class="lab">'+frage+'<span class="q" data-help="'+k+'">?</span></span>'+
-    '<span class="row"><select data-k="'+k+'">'+opts.map((o,i)=>'<option value="'+i+'">'+o+'</option>').join('')+'</select><span class="suf">▾</span></span>'+
-    '<span class="help" id="h-'+k+'">'+help+'</span></label>').join('');
+    '<label class="f" data-f="'+k+'"><span class="lab">'+frage+'<span class="q" data-help="h-'+k+'">?</span><span class="tg to">offen</span></span>'+
+    '<span class="row"><select data-k="'+k+'"><option value="">– bitte wählen –</option>'+opts.map((o,i)=>'<option value="'+i+'">'+o+'</option>').join('')+
+    '</select><span class="suf">▾</span></span><span class="help" id="h-'+k+'">'+help+'</span></label>').join('');
   bindeFelder();
 }
 function bindeFelder(){
   document.querySelectorAll('[data-k]').forEach(i=>{
     const k=i.dataset.k;
-    i.value=P[k];
     i.oninput=e=>{
       const t=e.target;
-      if(k==='zustand'||t.type==='text') P[k]=t.value; else P[k]=parseFloat(t.value)||0;
-      const rg=document.querySelector('[data-r="'+k+'"]'); if(rg) rg.value=P[k];
-      render();
+      const tp=META[k]&&META[k][4];
+      const kannOffen=OFFENBAR.indexOf(k)>=0;
+      if(tp==='text') P[k]=t.value;
+      else if(tp==='select'||t.tagName==='SELECT'){
+        if(t.value===''){ if(kannOffen) setOffen(k,true) }
+        else { P[k]=tp==='select'?t.value:(parseFloat(t.value)||0); if(kannOffen) setOffen(k,false) }
+      } else {
+        const v=parseFloat(t.value);
+        if(kannOffen){
+          if(t.value===''||!isFinite(v)||(POSITIV.indexOf(k)>=0&&v<=0)) setOffen(k,true);
+          else { P[k]=v; setOffen(k,false) }
+        } else {
+          P[k]=isFinite(v)?v:0;
+          P.auto=(P.auto||[]).filter(x=>x!==k);
+        }
+        if(k==='zins') P.zinsAuto=false;
+      }
+      const rg=document.querySelector('[data-r="'+k+'"]'); if(rg&&!istOffen(P,k)) rg.value=P[k];
+      touch(); render();
+    };
+  });
+  document.querySelectorAll('[data-pk]').forEach(i=>{
+    const k=i.dataset.pk; i.value=profil[k];
+    i.oninput=e=>{
+      profil[k]=parseFloat(e.target.value)||0;
+      LS.set('pruefstand.profil',profil); geaendert();
     };
   });
   document.querySelectorAll('[data-r]').forEach(i=>{
-    const k=i.dataset.r;
-    i.value=P[k];
+    const k=i.dataset.r; i.value=P[k];
     i.oninput=e=>{
       P[k]=parseFloat(e.target.value)||0;
+      if(OFFENBAR.indexOf(k)>=0) setOffen(k,false);
+      if(k==='zins') P.zinsAuto=false;
       const nb=document.querySelector('[data-k="'+k+'"]'); if(nb) nb.value=P[k];
-      render();
+      touch(); render();
     };
   });
   document.querySelectorAll('.q').forEach(q=>{
-    q.onclick=e=>{e.preventDefault();$('h-'+q.dataset.help).classList.toggle('on')};
+    q.onclick=e=>{e.preventDefault();$(q.dataset.help).classList.toggle('on')};
   });
+  $('selStatus').onchange=e=>{P.status=e.target.value;touch();render()};
+  $('notiz').oninput=e=>{P.notiz=e.target.value;touch()};
 }
 function feldWerteSetzen(){
-  document.querySelectorAll('[data-k]').forEach(i=>{i.value=P[i.dataset.k]});
+  document.querySelectorAll('[data-k]').forEach(i=>{const k=i.dataset.k; i.value=istOffen(P,k)?'':(P[k]==null?'':P[k])});
+  if($('selStatus')) $('selStatus').value=P.status||'beobachten';
+  if($('notiz')) $('notiz').value=P.notiz||'';
   document.querySelectorAll('[data-r]').forEach(i=>{i.value=P[i.dataset.r]});
+  document.querySelectorAll('[data-pk]').forEach(i=>{i.value=profil[i.dataset.pk]});
 }
 
 /* ============ Rechenkern ============ */
+/* Markiert offene und vom Radar gelieferte Felder; läuft am Ende jedes Renderns */
+function markiere(){
+  const kern=kernFehlt(P);
+  document.querySelectorAll('label.f[data-f]').forEach(l=>{
+    const k=l.dataset.f, off=istOffen(P,k);
+    l.classList.toggle('offen',off);
+    l.classList.toggle('radar',(P.auto||[]).indexOf(k)>=0);
+    const inp=l.querySelector('input[type=number]');
+    if(inp){
+      const ohneBasis = k==='kaufpreis'||k==='wohnflaeche'||(k==='kaltmiete'&&!(P.marktmiete>0))||(k==='hausgeld'&&istOffen(P,'wohnflaeche'));
+      inp.placeholder = !off ? '' : (ohneBasis ? 'eintragen' : 'ca. '+String(P[k]).replace('.',','));
+    }
+    if(off){ const rg=l.querySelector('[data-r]'); if(rg) rg.value=P[k]; }
+  });
+  if(P.zinsAuto){
+    const z=document.querySelector('[data-k="zins"]'); if(z&&document.activeElement!==z) z.value=P.zins;
+    const zr=document.querySelector('[data-r="zins"]'); if(zr) zr.value=P.zins;
+  }
+}
+function geheZu(k){
+  if(modus==='app'&&aktivTab!=='v1') setTab('v1');
+  const el=document.querySelector('[data-k="'+k+'"]'); if(!el) return;
+  /* erst fokussieren, dann rollen: nur so öffnet das iPhone die Tastatur */
+  try{el.focus({preventScroll:true})}catch(e){try{el.focus()}catch(x){}}
+  try{el.scrollIntoView({block:'center',behavior:'smooth'})}catch(e){el.scrollIntoView()}
+}
+
 function lageScore(p){return p.l1+p.l2+p.l3+p.l4+p.l5+p.l6+p.l7}
 function zinsVorschlag(p,bel){
+  bel=isFinite(bel)?bel:110;
   const b = bel<=60?0 : bel<=80?0.15 : bel<=90?0.35 : bel<=100?0.60 : bel<=110?0.90 : 1.20;
   return p.basiszins + b + cl((p.zinsbindung-10)*0.045,0,0.75);
 }
@@ -528,6 +962,9 @@ function calc(p){
   const gesamt=p.kaufpreis+neben;
   const darlehen=Math.max(0,gesamt-p.eigenkapital);
   const beleihung=darlehen/p.kaufpreis*100;
+  /* Zusätzliche Sicherheit senkt den anrechenbaren Beleihungsauslauf */
+  const sicherheit=(p.zsTyp&&p.zsTyp!=='keine')?p.zsWert*p.zsQuote/100:0;
+  const effBeleihung=darlehen/(p.kaufpreis+sicherheit)*100;
   const rate=darlehen*(p.zins+p.tilgung)/100/12;
   const hgNU=p.hausgeld*p.hausgeldNUAnteil/100;
   const ruecklage=p.ruecklageEigen*p.wohnflaeche;
@@ -577,30 +1014,63 @@ function calc(p){
   for(const j of jahre){ if(j.wert*erloesQ>=j.rest){jahrOK=j.jahr;break;} }
 
   const faktor=p.kaufpreis/(p.kaltmiete*12);
+  /* Mietpotenzial und Markteinkauf */
+  const mm=p.marktmiete>0?p.marktmiete:p.kaltmiete;
+  const mietPot=Math.max(0,mm-p.kaltmiete);
+  const faktorMarkt=p.kaufpreis/(mm*12);
+  const qmPreis=p.kaufpreis/p.wohnflaeche;
+  const marktDelta=p.vergleichspreis>0?(qmPreis/p.vergleichspreis-1)*100:null;
   const brutto=p.kaltmiete*12/p.kaufpreis*100;
   const bankMiete=p.kaltmiete*0.75;
   const bankUeb=p.netto+p.netto2+bankMiete-p.lebenshaltung-p.eigeneWarmmiete-p.weitereRaten-rate-hgNU;
   const bankUebOhne=p.netto+p.netto2+bankMiete-p.lebenshaltung-p.eigeneWarmmiete-rate-hgNU;
 
-  let kumCF=0;
+  let kumCF=0, etfWert=p.eigenkapital, etfBeitrag=p.eigenkapital;
   for(let y=1;y<=p.zinsbindung&&y<=jahre.length;y++){
     const m=mieteEff*Math.pow(1+p.mietsteigerung/100,y-1);
     const b=bewirt*Math.pow(1.02,y-1);
     const h=hgNU*Math.pow(1.02,y-1);
     const se=-(m*12-jahre[y-1].zinsen-h*12-afa)*p.grenzsteuer/100;
-    kumCF+=(m-b)*12-rate*12+se;
+    const jcf=(m-b)*12-rate*12+se;
+    kumCF+=jcf;
+    etfWert*=1.06;
+    const ab=Math.max(0,-jcf);
+    etfWert+=ab; etfBeitrag+=ab;
   }
+  /* Gewinn nach Abgeltungsteuer, damit beide Zahlen vergleichbar sind */
+  const etfNetto=Math.max(0,(etfWert-etfBeitrag))*0.74;
   const vermoegen=(wertBind*erloesQ-restBind)+kumCF-p.eigenkapital;
+
+  /* Spielraum für ein zweites Objekt mit denselben Kennzahlen */
+  function ueb2(kp2){
+    const q2=kp2/p.kaufpreis;
+    const dar2=kp2*(1+nkQuote/100);
+    const rate2=dar2*(p.zins+p.tilgung)/100/12;
+    return bankUeb + p.kaltmiete*q2*0.75 - rate2 - hgNU*q2;
+  }
+  let naechstes=0;
+  {let lo=0,hi=600000;for(let i=0;i<40;i++){const m=(lo+hi)/2; if(ueb2(m)>=300)lo=m;else hi=m}naechstes=lo}
+
+  /* Barbedarf am Notartermin */
+  const barbedarf=(p.grest+p.notar)/100*p.kaufpreis;
+  /* Ab wann die fremde Sicherheit freigegeben werden kann */
+  let freigabe=null;
+  if(sicherheit>0){ for(const j of jahre){ if(j.rest<=0.8*j.wert){freigabe=j.jahr;break} } }
+  const pension=67-p.alter;
 
   const alter=new Date().getFullYear()-p.baujahr;
   const zM={saniert:0,teilsaniert:6,unsaniert:14}[p.zustand]??6;
   const ls=lageScore(p);
+  const bauOffen=istOffen(p,'baujahr')||istOffen(p,'zustand');
+  const lageOffen=LKEYS.some(k=>istOffen(p,k));
 
   const items=[
-    {l:'Anteil geliehenes Geld',w:pct(beleihung),pkt:cl((beleihung-80)/40*16,0,16),max:16,
-     t:beleihung>100?'Über 100 Prozent: ihr schuldet mehr, als die Wohnung wert ist.':'Solide Struktur.'},
-    {l:'Preis im Verhältnis zur Miete',w:nm(faktor)+'×',pkt:cl((faktor-18)/14*12,0,12),max:12,
-     t:faktor>25?'Zu teuer gemessen an der Miete.':'Im tragfähigen Bereich.'},
+    {l:'Anteil geliehenes Geld',w:pct(beleihung),pkt:cl(((sicherheit>0?effBeleihung:beleihung)-80)/40*16,0,16),max:16,
+     t:sicherheit>0?('Mit der Zusatzsicherheit rechnet die Bank mit '+pct(effBeleihung)+'. Das Ausfallrisiko trägt damit teilweise die Familie.')
+       :(beleihung>100?'Über 100 Prozent: ihr schuldet mehr, als die Wohnung wert ist.':'Solide Struktur.')},
+    {l:'Preis im Verhältnis zur Miete',w:nm(faktor)+'×',pkt:cl((faktorMarkt-18)/14*12,0,12),max:12,
+     t:mietPot>0?('Bei Marktmiete '+nm(faktorMarkt)+'× — das Potenzial ist eingerechnet.')
+       :(faktor>25?'Zu teuer gemessen an der Miete.':'Im tragfähigen Bereich.')},
     {l:'Monatliche Zuzahlung',w:eur(cfNach),pkt:cl(-cfNach/Math.max(150,p.zuschuss)*9,0,14),max:14,
      t:cfNach< -p.zuschuss?'Mehr, als ihr mit '+eur(p.zuschuss)+' tragen wolltet.':cfNach<0?'Innerhalb eurer '+eur(p.zuschuss)+'.':'Trägt sich vollständig selbst.'},
     {l:'Liquider Puffer',w:nm(leerMon,0)+' Monate',pkt:cl((12-leerMon)/12*12,0,12),max:12,
@@ -609,16 +1079,19 @@ function calc(p){
      t:(kritZins&&kritZins<p.anschlusszins)?'Beim erwarteten Anschlusszins seid ihr schon im Minus.':'Puffer vorhanden.'},
     {l:'Luft im Haushalt',w:eur(bankUeb),pkt:cl((600-bankUeb)/900*10,0,10),max:10,
      t:bankUeb<300?'Für die Bank zu knapp.':'Kapitaldienstfähigkeit dargestellt.'},
-    {l:'Bausubstanz',w:p.baujahr+' · '+p.zustand,pkt:cl(zM*0.72+(alter>45?3:0),0,10),max:10,
-     t:(alter>45&&p.zustand!=='saniert')?'Sonderumlagen für Dach, Fassade und Heizung sind wahrscheinlich.':'Überschaubares Risiko.'},
-    {l:'Standort',w:ls+' von 14',pkt:cl((14-ls)/14*12,0,12),max:12,
-     t:ls>=11?'Lage mit Rückenwind.':ls>=7?'Durchschnittlich — Wertsteigerung trägt hier wenig bei.':'Schwacher Standort. Der Preis muss das ausgleichen.'}
+    {l:'Bausubstanz',w:bauOffen?'noch offen':p.baujahr+' · '+p.zustand,pkt:cl(zM*0.72+(alter>45?3:0),0,10),max:10,
+     t:bauOffen?'Baujahr oder Zustand fehlen noch. Gerechnet ist ein mittleres Risiko.'
+       :(alter>45&&p.zustand!=='saniert')?'Sonderumlagen für Dach, Fassade und Heizung sind wahrscheinlich.':'Überschaubares Risiko.'},
+    {l:'Standort',w:lageOffen?'noch offen':ls+' von 14',pkt:cl((14-ls)/14*12,0,12),max:12,
+     t:lageOffen?'Der Standort-Check ist noch nicht vollständig. Offene Fragen zählen als Durchschnitt.'
+       :ls>=11?'Lage mit Rückenwind.':ls>=7?'Durchschnittlich — Wertsteigerung trägt hier wenig bei.':'Schwacher Standort. Der Preis muss das ausgleichen.'}
   ];
   const score=Math.round(items.reduce((s,i)=>s+i.pkt,0));
 
   return {nkQuote,neben,gesamt,darlehen,beleihung,rate,hgNU,ruecklage,bewirt,mieteEff,afa,zins1,cfVor,stEff,
     cfNach,jahre,restBind,laufzeit,anschluss,kritZins,leerMon,jahrOK,faktor,brutto,bankMiete,bankUeb,
-    bankUebOhne,kumCF,vermoegen,items,score,ls};
+    bankUebOhne,kumCF,vermoegen,items,score,ls,mietPot,faktorMarkt,marktDelta,qmPreis,etfNetto,
+    naechstes,barbedarf,pension,mm,sicherheit,effBeleihung,freigabe,bauOffen,lageOffen};
 }
 
 function bisect(test,lo,hi,okBelow){
@@ -640,26 +1113,186 @@ function urteil(s){
 
 /* ============ Objektverwaltung ============ */
 function speichern(){
+  if(kernFehlt(P)){toast('Erst Kaufpreis, Wohnfläche und Miete eintragen.');geheZu(offenListe(P)[0].k);return}
+  clearTimeout(saveTimer);
+  if(!P.name){P.name=autoName(P)}
   const id=aktivId||('o'+Date.now());
-  const e={id,name:P.name||'Ohne Namen',ts:Date.now(),p:Object.assign({},P)};
+  const e={id,name:P.name,ts:Date.now(),p:kopie(P)};
   const i=objekte.findIndex(o=>o.id===id);
   if(i>=0)objekte[i]=e;else objekte.push(e);
+  aktivId=id; FREMD=false;
+  const ok=LS.set('pruefstand.objekte',objekte); LS.set('pruefstand.aktiv',aktivId); geaendert();
+  try{ if(navigator.storage&&navigator.storage.persist) navigator.storage.persist().catch(()=>{}) }catch(e){}
+  feldWerteSetzen(); render(); merkeZeit();
+  const n=offenListe(P).length;
+  toast(!ok?'Speichern ist in diesem Fenster nicht möglich.':n?'Gespeichert · noch '+n+' offen':'Gespeichert');
+}
+function duplizieren(){
+  if(kernFehlt(P)){toast('Erst Kaufpreis, Wohnfläche und Miete eintragen.');return}
+  clearTimeout(saveTimer);
+  const id='o'+Date.now();
+  P=kopie(P); P.name=(P.name||'Objekt')+' (Variante)'; P.rk='';
+  objekte.push({id,name:P.name,ts:Date.now(),p:kopie(P)});
   aktivId=id;
-  LS.set('pruefstand.objekte',objekte); LS.set('pruefstand.aktiv',aktivId);
-  render();
+  LS.set('pruefstand.objekte',objekte); LS.set('pruefstand.aktiv',aktivId); geaendert();
+  feldWerteSetzen(); render(); merkeZeit(); toast('Variante angelegt');
+}
+/* Ein angefangener Radar-Entwurf geht nicht verloren, wenn man woanders hin wechselt */
+function entwurfRetten(){
+  if(aktivId||!(P.rk||P.quelle)||!P.bearbeitet||kernFehlt(P)) return false;
+  objekte.push({id:'o'+Date.now(),name:P.name||autoName(P),ts:Date.now(),p:kopie(P)});
+  LS.set('pruefstand.objekte',objekte); geaendert();
+  return true;
+}
+let letzteSpeicherung=null;
+function merkeZeit(){
+  letzteSpeicherung=new Date();
+  if($('saveInfo')) $('saveInfo').textContent=letzteSpeicherung.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})+' Uhr';
 }
 function laden(id){
   const o=objekte.find(x=>x.id===id); if(!o)return;
-  P=Object.assign({},START,o.p); aktivId=id;
+  if(id===aktivId) return;
+  clearTimeout(saveTimer);
+  const gerettet=entwurfRetten();
+  P=Object.assign(frisch(),kopie(o.p)); aktivId=id; FREMD=false;
   LS.set('pruefstand.aktiv',aktivId); feldWerteSetzen(); render();
+  if(gerettet) toast('Der angefangene Entwurf wurde gespeichert.');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function loeschen(id){
+  const o=objekte.find(x=>x.id===id);
+  if(o&&!confirm('„'+o.name+'“ wirklich löschen?')) return;
   objekte=objekte.filter(o=>o.id!==id);
   if(aktivId===id)aktivId=null;
-  LS.set('pruefstand.objekte',objekte); LS.set('pruefstand.aktiv',aktivId); render();
+  LS.set('pruefstand.objekte',objekte); LS.set('pruefstand.aktiv',aktivId);
+  geaendert();
+  if(!aktivId){P=leer();LS.set('pruefstand.draft',P);feldWerteSetzen()}
+  render();
 }
-function neu(){P=Object.assign({},START);aktivId=null;feldWerteSetzen();render();window.scrollTo({top:0,behavior:'smooth'})}
+function neu(){
+  clearTimeout(saveTimer);
+  const gerettet=entwurfRetten();
+  P=leer(); aktivId=null; FREMD=false;
+  LS.set('pruefstand.aktiv',null); LS.set('pruefstand.draft',P);
+  feldWerteSetzen(); render();
+  if(modus==='app') setTab('v1');
+  if(gerettet) toast('Der angefangene Entwurf wurde gespeichert.');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function verwerfen(){
+  clearTimeout(saveTimer);
+  P=leer(); aktivId=null; FREMD=false;
+  LS.set('pruefstand.aktiv',null); LS.set('pruefstand.draft',P);
+  feldWerteSetzen(); render(); window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ============ Übernahme aus dem Radar ============ */
+function unb64x(t){
+  if(t.indexOf('%')>=0){ try{t=decodeURIComponent(t)}catch(e){} }
+  t=t.replace(/-/g,'+').replace(/_/g,'/').replace(/\s/g,'');
+  while(t.length%4) t+='=';
+  return decodeURIComponent(escape(atob(t)));
+}
+function b64x(t){ return btoa(unescape(encodeURIComponent(t))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'') }
+function radarLesen(code){
+  let d;
+  try{ d=JSON.parse(unb64x(code)) }catch(e){ return null }
+  if(!d||typeof d!=='object') return null;
+  if(d.v===2) return {k:d.k,titel:d.n,ort:d.o,plz:d.z,preis:d.p,flaeche:d.f,zimmer:d.zi,markt:d.m,ist:d.im,
+    hausgeld:d.hg,baujahr:d.bj,vp:d.vp,vn:d.vn,pf:d.pf,portal:d.q,url:d.u};
+  /* erste Fassung des Radars */
+  return {k:'',titel:d.name,ort:d.adresse,plz:'',preis:d.kaufpreis,flaeche:d.wohnflaeche,zimmer:0,
+    markt:d.marktmiete||d.kaltmiete,ist:0,hausgeld:0,baujahr:0,vp:0,vn:0,pf:0,portal:'',url:d.quelle};
+}
+function radarUebernehmen(d){
+  const preis=+d.preis, fl=+d.flaeche;
+  if(!(preis>0)||!(fl>0)) return 'Im Link fehlen Preis oder Fläche.';
+  const url=/^https?:\/\//i.test(d.url||'')?String(d.url):'';
+  const rk=d.k?String(d.k):'';
+  const gleich=p=>p&&((rk&&p.rk===rk)||(url&&p.quelle===url));
+  const da=objekte.find(o=>gleich(o.p));
+  if(da){
+    if(da.id!==aktivId){ entwurfRetten(); P=Object.assign(frisch(),kopie(da.p)); aktivId=da.id; LS.set('pruefstand.aktiv',aktivId) }
+    FREMD=false;
+    return 'Schon gespeichert — das Objekt ist geöffnet.';
+  }
+  if(!aktivId&&gleich(P)) return 'Entwurf fortgesetzt.';
+  const gerettet=entwurfRetten();
+  FREMD=!LS.get('pruefstand.profil',null)&&objekte.length===0;
+  const p=frisch(), auto=['kaufpreis','wohnflaeche'], offen=[];
+  const zi=+d.zimmer||0, ort=String(d.ort||'').trim().slice(0,40), plz=String(d.plz||'').trim().slice(0,5);
+  p.titel=String(d.titel||'').slice(0,90);
+  p.ort=ort; p.plz=plz; p.adresse=[plz,ort].filter(Boolean).join(' '); p.grob=!ort;
+  p.name=[ort||plz||'Objekt', zi?nm(zi,zi%1?1:0)+' Zi.':'', Math.round(fl)+' m²'].filter(Boolean).join(' · ');
+  p.kaufpreis=Math.round(preis); p.wohnflaeche=Math.round(fl*10)/10; p.zimmer=zi;
+  p.marktmiete=Math.round(+d.markt||0); if(p.marktmiete>0) auto.push('marktmiete');
+  if(+d.ist>0){p.kaltmiete=Math.round(+d.ist);auto.push('kaltmiete')} else offen.push('kaltmiete');
+  if(+d.hausgeld>0){p.hausgeld=Math.round(+d.hausgeld);auto.push('hausgeld')} else offen.push('hausgeld');
+  if(+d.baujahr>1700){p.baujahr=Math.round(+d.baujahr);auto.push('baujahr');if(p.baujahr<1925)p.afaSatz=2.5} else offen.push('baujahr');
+  offen.push('zustand'); LKEYS.forEach(k=>offen.push(k));
+  if(+d.vp>0){p.vergleichspreis=Math.round(+d.vp);p.vn=+d.vn||0;auto.push('vergleichspreis')} else p.vergleichspreis=0;
+  if(d.pf){p.makler=0;auto.push('makler')}
+  p.quelle=url; p.rk=rk; p.portal=String(d.portal||'').slice(0,30);
+  p.offen=offen; p.auto=auto; p.zinsAuto=true; p.status='beobachten'; p.notiz=''; p.check={}; p.bearbeitet=false;
+  P=p; aktivId=null;
+  LS.set('pruefstand.aktiv',null); LS.set('pruefstand.draft',P);
+  return gerettet?'Übernommen. Der vorige Entwurf wurde gespeichert.':'Aus dem Radar übernommen';
+}
+/* Gemeinde-Antworten aus einem anderen Objekt im selben Ort */
+const GEMEINDE=['l1','l2','l3','l4','l5'];
+function ortsVorlage(){
+  if(!P.ort&&!P.plz) return null;
+  if(!GEMEINDE.some(k=>istOffen(P,k))) return null;
+  return objekte.find(o=>o.id!==aktivId&&o.p&&((P.ort&&o.p.ort===P.ort)||(P.plz&&o.p.plz===P.plz))&&
+    !GEMEINDE.some(k=>istOffen(o.p,k)))||null;
+}
+
+/* ============ Karte ganz oben: Herkunft, offene Angaben, Speichern ============ */
+function renderStand(){
+  const off=offenListe(P), kern=kernFehlt(P), radar=!!(P.rk||P.quelle), gesp=!!aktivId;
+  if(!radar&&!off.length){ $('stand').innerHTML=''; return }
+  let h='<div class="card stand'+(off.length?'':' fertig')+'">'+
+    '<div class="src"><span>'+(radar?'Vom Radar'+(P.portal?' · '+esc(P.portal):''):'Neues Objekt')+'</span>'+
+    '<span>'+(gesp?'gespeichert':'nicht gespeichert')+'</span></div>';
+  if(radar){
+    if(P.titel) h+='<div class="ttl">'+esc(P.titel)+'</div>';
+    h+='<div class="fakt">'+[eur(P.kaufpreis),nm(P.wohnflaeche,P.wohnflaeche%1?1:0)+' m²',
+      P.zimmer?nm(P.zimmer,P.zimmer%1?1:0)+' Zi.':'',esc(P.ort||P.plz||'')].filter(Boolean).join(' · ')+'</div>';
+    if(P.quelle) h+='<div class="btnrow"><a class="btn sec sm" href="'+esc(P.quelle)+'" target="_blank" rel="noopener">Inserat öffnen ↗</a></div>';
+    else h+='<div class="mini">Den Link zum Inserat findest du in der Telegram-Nachricht.</div>';
+  }
+  if(off.length){
+    h+='<div class="olead"><b>Noch offen ('+off.length+')</b> — antippen und aus dem Exposé nachtragen:</div>'+
+      '<div class="ochips">'+off.map(o=>'<button class="ochip" data-go="'+o.k+'">'+o.n+'</button>').join('')+'</div>';
+    if(!kern) h+='<div class="mini">Bis dahin gerechnet mit: '+annahmeText(P)+'. Das Urteil oben ist deshalb vorläufig.</div>';
+  } else h+='<div class="olead ok">✓ Alle Angaben vollständig. Das Urteil oben gilt.</div>';
+  if(radar&&P.grob) h+='<div class="mini">Für diesen Ort kennt das Radar keinen Mietspiegel. Die Marktmiete ist ein grober Standardwert — bitte selbst prüfen und überschreiben.</div>';
+  if(FREMD) h+='<div class="warnbox"><b>In diesem Fenster ist noch kein Profil gespeichert.</b> Gerechnet wird mit Beispielwerten für Einkommen und Reserve. Nutzt du den Prüfstand schon woanders, bist du gerade im falschen Fenster, zum Beispiel im eingebauten Browser von Telegram: Tippe dort auf das Safari-Symbol, dann öffnet sich dieselbe Seite in Safari. Ist das dein erster Start, tippe oben auf das Zahnrad und fülle dein Profil aus.</div>';
+  if(!gesp&&!kern) h+='<div class="btnrow"><button class="btn" id="stSave">Speichern</button><button class="btn sec" id="stWeg">Verwerfen</button></div>';
+  h+='</div>';
+  $('stand').innerHTML=h;
+  document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>geheZu(b.dataset.go));
+  if($('stSave')) $('stSave').onclick=speichern;
+  if($('stWeg')) $('stWeg').onclick=()=>{ if(!P.bearbeitet||confirm('Diesen Entwurf verwerfen?')) verwerfen() };
+}
+function renderHinweise(){
+  let h='';
+  if(STANDALONE&&!LS.get('pruefstand.umzugOk',false)){
+    h+='<div class="hinw"><b>Du nutzt den Prüfstand als Home-Bildschirm-App.</b> Links aus Telegram öffnen sich in Safari, und Safari hat einen eigenen Speicher — Objekte aus dem Radar kämen hier nie an. Zieh einmal um: Link kopieren, Safari öffnen, in die Adresszeile einfügen. Danach benutzt du den Prüfstand nur noch in Safari.'+
+      '<div class="btnrow"><button class="btn sm" id="hwUmzug">Umzugslink kopieren</button><button class="btn sec sm" id="hwOk">Erledigt</button></div></div>';
+  }
+  const s=LS.get('pruefstand.sicherung',0), g=LS.get('pruefstand.geaendert',0);
+  if(objekte.length&&g>s&&Date.now()-s>7*864e5){
+    h+='<div class="hinw"><b>'+(s?'Letzte Sicherung vor '+Math.floor((Date.now()-s)/864e5)+' Tagen.':'Noch keine Sicherung.')+'</b> '+
+      objekte.length+' '+(objekte.length===1?'Objekt liegt':'Objekte liegen')+' nur in diesem Browser.'+
+      '<div class="btnrow"><button class="btn sm" id="hwSich">Jetzt sichern</button></div></div>';
+  }
+  $('hinweise').innerHTML=h;
+  if($('hwUmzug')) $('hwUmzug').onclick=()=>kopiere(umzugsLink(),'Umzugslink kopiert. Jetzt in Safari einfügen.');
+  if($('hwOk')) $('hwOk').onclick=()=>{LS.set('pruefstand.umzugOk',true);renderHinweise()};
+  if($('hwSich')) $('hwSich').onclick=sichern;
+  if($('sichInfo')) $('sichInfo').textContent = s ? 'Letzte Sicherung: '+new Date(s).toLocaleDateString('de-DE')+(g>s?' · seitdem geändert':' · aktuell') : 'Noch keine Sicherung erstellt.';
+}
 
 /* ============ Ring ============ */
 function ring(score,c){
@@ -674,39 +1307,45 @@ function ring(score,c){
 }
 
 /* ============ Rendern ============ */
+function rowN(l,val){return '<div class="rw"><span>'+l+'</span><span>'+eur(val)+'</span></div>'}
+function rowS(l,val){return '<div class="rw sum"><span>'+l+'</span><span class="'+(val<0?'neg':'pos')+'">'+eur(val)+'</span></div>'}
+
 function render(){
+  CACHE=null;
+  annahmen(P);
+  const kern=kernFehlt(P), offN=offenListe(P).length;
+  document.body.classList.toggle('leer',kern);
   const r=calc(P), v=urteil(r.score);
 
-  $('verdikt').className='verdikt '+v.c;
-  $('verdikt').textContent=v.t;
-  $('subline').innerHTML='Zuzahlung <b>'+eur(r.cfNach)+'</b>/M · Kredit <b>'+eur(r.darlehen)+'</b> · Faktor <b>'+nm(r.faktor)+'</b>';
-  $('ring').innerHTML=ring(r.score,v.c);
+  $('eyebrow').textContent = (!kern&&offN) ? 'Vorläufig · '+offN+' offen' : 'Prüfstand · Kapitalanlage';
+  $('eyebrow').classList.toggle('vl',!kern&&offN>0);
+  if(kern){
+    $('verdikt').className='verdikt n';
+    $('verdikt').textContent='Angaben fehlen';
+    $('subline').textContent='Kaufpreis, Wohnfläche und Miete eintragen';
+    $('ring').innerHTML='';
+  } else {
+    $('verdikt').className='verdikt '+v.c;
+    $('verdikt').textContent=v.t;
+    $('subline').innerHTML='Zuzahlung <b>'+eur(r.cfNach)+'</b>/M · Kredit <b>'+eur(r.darlehen)+'</b> · Faktor <b>'+nm(r.faktor)+'</b>';
+    $('ring').innerHTML=ring(r.score,v.c);
+  }
 
   /* Schnellwechsel-Chips */
-  $('chips').innerHTML = objekte.map(o=>
+  $('chips').innerHTML = ((!aktivId&&!kern)?'<button class="chip on" data-chip="entwurf">Entwurf: '+esc(P.name||'ohne Namen')+'</button>':'')+
+    objekte.map(o=>
     '<button class="chip '+(o.id===aktivId?'on':'')+'" data-chip="'+o.id+'">'+esc(o.name)+'</button>').join('')
     + '<button class="chip" data-chip="neu">+ Neu</button>';
   document.querySelectorAll('[data-chip]').forEach(e=>e.onclick=()=>{
-    e.dataset.chip==='neu'?neu():laden(e.dataset.chip);
+    const c=e.dataset.chip;
+    if(c==='entwurf'){ if(modus==='app') setTab('v1'); window.scrollTo({top:0,behavior:'smooth'}) }
+    else if(c==='neu') neu(); else laden(c);
   });
+  $('btnDel').textContent=aktivId?'Löschen':'Verwerfen';
 
-  /* Objektliste */
-  $('objliste').innerHTML = objekte.length ? objekte.map(o=>{
-      const rr=calc(Object.assign({},START,o.p)),u=urteil(rr.score);
-      return '<div class="obj '+(o.id===aktivId?'act':'')+'"><span class="dot '+u.c+'">'+rr.score+'</span>'+
-       '<span class="nm" data-load="'+o.id+'"><b>'+esc(o.name)+'</b><span>'+eur(o.p.kaufpreis)+' · Faktor '+
-       nm(rr.faktor)+' · '+eur(rr.cfNach)+'/M</span></span><button class="x" data-del="'+o.id+'">×</button></div>';
-    }).join('') : '<p class="mini">Noch nichts gespeichert. Trag im Tab „Angebot“ ein Objekt ein und tippe auf Speichern.</p>';
-  document.querySelectorAll('[data-load]').forEach(e=>e.onclick=()=>laden(e.dataset.load));
-  document.querySelectorAll('[data-del]').forEach(e=>e.onclick=()=>loeschen(e.dataset.del));
-  $('lsWarn').innerHTML = LS.ok?'':'<div class="warnbox"><b>Speichern geht hier nicht.</b> Dieses Vorschaufenster erlaubt keinen Gerätespeicher. Sobald du die Datei über eine echte Adresse auf dem iPhone öffnest, funktioniert es.</div>';
-
-  $('cmptab').innerHTML = objekte.length<2 ? '' :
-    '<table class="cmp"><tr><th>Objekt</th><th>Preis</th><th>Faktor</th><th>€/m²</th><th>€/M</th><th>Risiko</th></tr>'+
-    objekte.map(o=>{const q=Object.assign({},START,o.p),rr=calc(q);
-      return '<tr><td>'+esc(o.name)+'</td><td>'+Math.round(q.kaufpreis/1000)+'k</td><td>'+nm(rr.faktor)+'</td><td>'+
-      Math.round(q.kaufpreis/q.wohnflaeche)+'</td><td>'+Math.round(rr.cfNach)+'</td><td>'+rr.score+'</td></tr>'}).join('')+
-    '</table>';
+  renderHinweise();
+  renderStand();
+  renderListe();
 
   /* Standort */
   const emp=empfWertsteigerung(r.ls);
@@ -719,7 +1358,12 @@ function render(){
     :'Schwach. Rechne mit stagnierenden Mieten und schwerer Weiterverkäuflichkeit. Nur mit deutlichem Preisabschlag sinnvoll.')+'</div>'+
    (Math.abs(P.wertsteigerung-emp)>0.24?'<div class="warnbox"><b>Vorschlag:</b> Zu dieser Standortwertung passt eine Wertsteigerung von '+pct(emp)+' pro Jahr, eingestellt sind '+pct(P.wertsteigerung)+'.<div class="btnrow"><button class="btn sec sm" id="btnEmp">Übernehmen</button></div></div>':'');
   const be=$('btnEmp');
-  if(be) be.onclick=()=>{P.wertsteigerung=emp;P.mietsteigerung=Math.max(0.75,emp-0.25);feldWerteSetzen();render()};
+  if(be) be.onclick=()=>{P.wertsteigerung=emp;P.mietsteigerung=Math.max(0.75,emp-0.25);touch();feldWerteSetzen();render()};
+  const vor=ortsVorlage();
+  if(vor){
+    $('lageErg').insertAdjacentHTML('afterbegin','<div class="hinw" style="margin:0 0 4px"><b>'+esc(P.ort||P.plz)+' kennst du schon.</b> Die fünf Fragen zur Gemeinde hast du bei „'+esc(vor.name)+'“ beantwortet. Die Mikrolage und die Wege zu Fuß gehören zur einzelnen Wohnung und bleiben offen.<div class="btnrow"><button class="btn sm" id="btnOrt">Antworten übernehmen</button></div></div>');
+    $('btnOrt').onclick=()=>{GEMEINDE.forEach(k=>{P[k]=vor.p[k];setOffen(k,false)});touch();feldWerteSetzen();render()};
+  }
 
   const ad=encodeURIComponent(P.adresse||'');
   $('lageLinks').innerHTML = P.adresse ?
@@ -729,13 +1373,32 @@ function render(){
    '<a href="https://www.google.com/search?q=Einwohnerentwicklung+'+ad+'" target="_blank" rel="noopener">Einwohner</a>'
    : '<span class="mini">Trag oben eine Adresse ein, dann erscheinen hier Recherche-Links.</span>';
 
-  /* Zinsvorschlag */
-  const zv=zinsVorschlag(P,r.beleihung);
-  $('zinsTipp').innerHTML = Math.abs(P.zins-zv)>0.12
+  /* Zinsvorschlag und Wirkung der Zusatzsicherheit */
+  const zv=zinsVorschlag(P,r.sicherheit>0?r.effBeleihung:r.beleihung);
+  if(r.sicherheit>0){
+    const zOhne=zinsVorschlag(P,r.beleihung);
+    const rateOhne=r.darlehen*(zOhne+P.tilgung)/100/12;
+    const rateMit=r.darlehen*(zv+P.tilgung)/100/12;
+    const spar=rateOhne-rateMit;
+    $('zsInfo').innerHTML=
+      '<div class="stress"><div class="sn">Angerechnete Sicherheit<i>'+
+      (P.zsTyp==='grundschuld'?'Grundschuld auf fremder Immobilie':'Bürgschaft')+' · '+pct(P.zsQuote,0)+' von '+eur(P.zsWert)+'</i></div>'+
+      '<div class="sv pos">'+eur(r.sicherheit)+'<i>Beleihung sinkt von '+pct(r.beleihung)+' auf '+pct(r.effBeleihung)+'</i></div></div>'+
+      '<div class="stress"><div class="sn">Wirkung auf den Zins<i>'+pct(zOhne,2)+' ohne, '+pct(zv,2)+' mit Sicherheit</i></div>'+
+      '<div class="sv pos">'+eur(spar)+'<i>im Monat · '+eur(spar*12*P.zinsbindung)+' über '+P.zinsbindung+' Jahre</i></div></div>'+
+      (r.freigabe?'<div class="stress"><div class="sn">Freigabe möglich ab<i>wenn die Restschuld unter 80 % des Werts liegt</i></div>'+
+        '<div class="sv">Jahr '+r.freigabe+'<i>Restschuld dann '+eur(r.jahre[r.freigabe-1].rest)+'</i></div></div>':'')+
+      '<div class="warnbox"><b>Was der Bürge wirklich riskiert:</b> Wer bürgt oder eine Grundschuld stellt, haftet mit dem eigenen Zuhause, wenn du nicht zahlen kannst — unabhängig davon, wie gut euer Verhältnis ist. Drei Dinge müssen notariell festgehalten werden: eine Begrenzung auf einen Höchstbetrag statt unbegrenzter Haftung, eine Vereinbarung, ab welchem Tilgungsstand die Sicherheit freigegeben wird'+(r.freigabe?' (nach dieser Rechnung ab Jahr '+r.freigabe+')':'')+', und die Rangstelle im Grundbuch. Führt das Gespräch mit einem Notar am Tisch, nicht am Küchentisch.</div>';
+  } else {
+    $('zsInfo').innerHTML='<div class="mini">Wähle oben eine zusätzliche Sicherheit, um zu sehen, was sie beim Zins bewirkt. Bei einem Kauf ohne Eigenkapital ist das der stärkste einzelne Hebel, den es gibt.</div>';
+  }
+  $('zinsTipp').innerHTML = P.zinsAuto
+   ? '<div class="mini">Der Sollzins von '+pct(P.zins,2)+' ist aus Bestzins, Beleihung und Zinsbindung abgeleitet und passt sich mit dem Kaufpreis an. Sobald du ein echtes Angebot der Bank hast, trag es oben ein.</div>'
+   : Math.abs(P.zins-zv)>0.12
    ? '<div class="warnbox"><b>Realistischer Zins: '+pct(zv,2)+'</b> — bei '+pct(r.beleihung)+' Beleihung und '+P.zinsbindung+' Jahren Bindung, ausgehend vom Bestzins '+pct(P.basiszins)+'. Eingestellt sind '+pct(P.zins)+'.<div class="btnrow"><button class="btn sec sm" id="btnZins">Übernehmen</button></div></div>'
    : '<div class="mini">Der eingestellte Zins passt zu eurem Beleihungsauslauf.</div>';
   const bz=$('btnZins');
-  if(bz) bz.onclick=()=>{P.zins=Math.round(zv*100)/100;feldWerteSetzen();render()};
+  if(bz) bz.onclick=()=>{P.zins=Math.round(zv*100)/100;P.zinsAuto=true;touch();feldWerteSetzen();render()};
 
   /* Plausibilität */
   const ck=[],qm=P.kaufpreis/P.wohnflaeche,mqm=P.kaltmiete/P.wohnflaeche,hqm=P.hausgeld/P.wohnflaeche;
@@ -762,7 +1425,7 @@ function render(){
     txt:P.kaufpreis<=maxKP
      ?'Mit '+eur(P.zuschuss)+' Zuzahlung tragt ihr diese Wohnung bis '+eur(maxKP)+'. Ihr liegt '+eur(maxKP-P.kaufpreis)+' darunter. Ganz ohne Zuzahlung wäre erst ab '+eur(neutralKP)+' Schluss — dieser Wert ist bei einer Vollfinanzierung fast nie erreichbar und kein sinnvoller Maßstab.'
      :'Bei '+eur(P.kaltmiete)+' Miete und '+eur(P.zuschuss)+' Zuzahlung dürfte die Wohnung höchstens '+eur(maxKP)+' kosten. Das sind '+eur(P.kaufpreis-maxKP)+' zu viel, rund '+pct((P.kaufpreis/maxKP-1)*100,0)+' über eurem Rahmen. Entweder runter verhandeln oder ein Objekt mit Faktor unter '+nm(maxKP/(P.kaltmiete*12),0)+' suchen.'},
-   {n:'Miete',ist:eur(P.kaltmiete)+'/M',gr:eur(minMiete)+'/M',ok:P.kaltmiete>=minMiete,li:'Ist-Miete',lg:'nötig ab',
+   {n:'Miete',ist:eur(P.kaltmiete)+'/M',gr:eur(minMiete)+'/M',ok:P.kaltmiete>=minMiete,li:istOffen(P,'kaltmiete')?'Annahme':'Ist-Miete',lg:'nötig ab',
     txt:P.kaltmiete>=minMiete
      ?'Die Miete reicht. Puffer bis zur Schmerzgrenze: '+eur(P.kaltmiete-minMiete)+' monatlich, also rund '+pct((1-minMiete/P.kaltmiete)*100,0)+' Mietausfall, den ihr verkraften würdet.'
      :'Zu diesem Preis müsste die Kaltmiete bei '+eur(minMiete)+' liegen — '+eur(minMiete-P.kaltmiete)+' mehr, also '+eur(minMiete/P.wohnflaeche)+' je m². Prüfe im Mietspiegel, ob das durchsetzbar wäre. Bei laufendem Mietvertrag geht das ohnehin nur in kleinen Schritten.'},
@@ -779,7 +1442,7 @@ function render(){
     txt:r.leerMon>=6
      ?'Die Reserve von '+eur(P.reserve)+' trägt '+nm(r.leerMon,0)+' Monate ohne jede Mieteinnahme.'
      :'Die Reserve trägt nur '+nm(r.leerMon,0)+' Monate ohne Miete. Bei einem Mieterwechsel mit Renovierung reicht das nicht. Nötig wären mindestens '+eur(rateBed(r)*6)+'.'},
-   {n:'Sonderumlage',ist:P.zustand==='unsaniert'?'Risiko hoch':P.zustand==='teilsaniert'?'Risiko mittel':'Risiko niedrig',
+   {n:'Sonderumlage',ist:istOffen(P,'zustand')?'Zustand offen':P.zustand==='unsaniert'?'Risiko hoch':P.zustand==='teilsaniert'?'Risiko mittel':'Risiko niedrig',
     gr:eur(P.reserve),ok:!(P.zustand!=='saniert'&&P.reserve<20000),li:'Objektrisiko',lg:'tragbar bis',
     txt:(P.zustand!=='saniert'&&P.reserve<20000)
      ?'Eine Dach- oder Heizungssanierung kostet euch als Miteigentümer schnell 15.000 bis 30.000 Euro, fällig binnen Wochen. Die Reserve deckt '+eur(P.reserve)+'. Prüft vor dem Angebot Rücklagenstand und die Protokolle der letzten drei Eigentümerversammlungen.'
@@ -789,6 +1452,97 @@ function render(){
      ?'Nach allen Ausgaben bleiben '+eur(r.bankUeb)+' übrig. Die Finanzierung ist darstellbar; rechnerisch ginge die Bank bis etwa '+eur(bankMaxKP)+' Kaufpreis mit.'
      :'Es bleiben nur '+eur(r.bankUeb)+' übrig — unter 300 Euro lehnen die meisten Banken ab. Mit diesem Haushalt ist etwa '+eur(bankMaxKP)+' das Maximum.'+(P.weitereRaten>0?' Ohne die laufende Kreditrate wären es '+eur(r.bankUebOhne)+'.':'')}
   ];
+  /* Maximalgebot */
+  const diff=maxKP-P.kaufpreis, rel=(maxKP/P.kaufpreis-1)*100;
+  $('gebot').innerHTML='<div class="lbl">Dein maximales Gebot</div>'+
+    '<div class="val '+(diff>=0?'up':'down')+'">'+eur(maxKP)+'</div>'+
+    '<div class="sub">'+(diff>=0
+      ? 'Das Angebot liegt bei '+eur(P.kaufpreis)+' — du hast '+eur(diff)+' Spielraum. Ein Gebot am unteren Rand ist trotzdem sinnvoll: jeder gesparte Euro ist ein Euro weniger Schulden.'
+      : 'Das Angebot liegt bei '+eur(P.kaufpreis)+'. Du müsstest '+eur(-diff)+' herunterhandeln, also '+pct(-rel,0)+'. Ab etwa 8 Prozent wird es unrealistisch — dann ist es das falsche Objekt, nicht der falsche Preis.')+
+    '</div>';
+
+  /* Einkauf und Potenzial */
+  const md=r.marktDelta;
+  $('einkauf').innerHTML=
+    (md===null
+      ? '<div class="warnbox">Trag im Objekt-Tab den <b>Vergleichspreis je m²</b> ein, dann siehst du hier, ob du unter oder über Marktwert kaufst. Das ist die wichtigste Zahl überhaupt — wer 10 Prozent unter Wert einkauft, hat das Eigenkapital für die nächste Wohnung am Tag des Notartermins schon verdient.</div>'
+      : '<div class="stress"><div class="sn">Einkauf gegen Marktniveau<i>'+eur(r.qmPreis)+' je m² gegen '+eur(P.vergleichspreis)+' im Ort'+
+        ((P.auto||[]).indexOf('vergleichspreis')>=0?(P.vn>0?' · Radar-Median aus '+P.vn+' Inseraten':' · Richtwert aus dem Radar'):'')+'</i></div>'+
+        '<div class="sv '+(md<=0?'pos':'neg')+'">'+(md>0?'+':'')+pct(md,1)+
+        '<i>'+(md<=0?eur(-md/100*P.kaufpreis)+' Vorsprung':eur(md/100*P.kaufpreis)+' zu viel')+'</i></div></div>')
+    +
+    (istOffen(P,'kaltmiete')
+      ? '<div class="mini">Die Ist-Miete fehlt noch. Sobald du sie einträgst, siehst du hier, ob unter Marktniveau vermietet wird. Steht die Wohnung leer oder wird sie frei übergeben, trag die Marktmiete als Miete ein.</div>'
+      : r.mietPot>0
+      ? '<div class="stress"><div class="sn">Mietpotenzial<i>Ist-Miete '+eur(P.kaltmiete)+' gegen Marktmiete '+eur(r.mm)+'</i></div>'+
+        '<div class="sv pos">+'+eur(r.mietPot)+'<i>Faktor sinkt auf '+nm(r.faktorMarkt)+'× · '+eur(r.mietPot*12)+' im Jahr</i></div></div>'+
+        '<div class="erkbox">Diese Differenz hebst du bei Mieterwechsel oder schrittweise über die Kappungsgrenze: höchstens 20 Prozent in drei Jahren, in Gebieten mit Wohnungsmangel nur 15. Nach einer Modernisierung darfst du zusätzlich 8 Prozent der Kosten jährlich auf die Miete umlegen. Rechne unten aber weiter mit der Ist-Miete — das Potenzial ist die Chance, nicht die Grundlage.</div>'
+      : (P.marktmiete>0
+        ? '<div class="stress"><div class="sn">Mietpotenzial<i>Ist-Miete liegt bereits auf Marktniveau</i></div><div class="sv">'+eur(0)+'<i>kein Nachholeffekt</i></div></div>'
+        : '<div class="mini">Trag die Marktmiete laut Mietspiegel ein, um zu sehen, ob unter Wert vermietet wird.</div>'));
+
+  /* Liquidität am Notartermin */
+  const gedeckt=P.eigenkapital+P.reserve>=r.barbedarf;
+  $('liq').innerHTML=
+    rowN('Grunderwerbsteuer und Notar',-r.barbedarf)+
+    rowN('davon von der Bank finanziert',P.eigenkapital>=r.neben?0:Math.max(0,r.barbedarf-P.eigenkapital))+
+    rowN('verfügbar (Eigenkapital + Reserve)',P.eigenkapital+P.reserve)+
+    '<div class="erkbox"><b>Zeitlicher Ablauf:</b> Der Notar rechnet direkt nach der Beurkundung ab, die Grunderwerbsteuer kommt vier bis acht Wochen später vom Finanzamt. Die Bank zahlt den Kaufpreis dagegen erst aus, wenn die Grundschuld im Grundbuch steht — das dauert oft sechs bis zehn Wochen. In diesem Fenster musst du '+eur(r.barbedarf)+' selbst vorstrecken können'+(gedeckt?', das ist gedeckt.':' — das ist mit deinen Mitteln nicht gedeckt. Kläre vorher mit der Bank, ob sie die Nebenkosten vorab auszahlt.')+'</div>';
+
+  /* Blick nach vorn */
+  const etfBesser=r.etfNetto>r.vermoegen;
+  $('vorn').innerHTML=
+    '<div class="stress"><div class="sn">Spielraum für das nächste Objekt<i>gleiche Kennzahlen, direkt nach diesem Kauf</i></div>'+
+    '<div class="sv '+(r.naechstes>80000?'pos':'neg')+'">'+(r.naechstes<40000?'keine':eur(r.naechstes))+'<i>'+(r.naechstes<80000?'dieser Kauf bindet deine Kapitaldienstfähigkeit vollständig':'Kaufpreis, den die Bank noch mitgehen würde')+'</i></div></div>'+
+    '<div class="stress"><div class="sn">Kredit getilgt im Alter von<i>Volltilgung nach '+r.laufzeit+' Jahren</i></div>'+
+    '<div class="sv '+(P.alter+r.laufzeit<=67?'pos':'neg')+'">'+(P.alter+r.laufzeit)+' Jahren<i>'+
+    (P.alter+r.laufzeit<=67?'vor der Pension abbezahlt':'reicht über die Pension hinaus — Banken sehen das kritisch')+'</i></div></div>'+
+    '<div class="stress"><div class="sn">Steuerfreier Verkauf ab<i>Spekulationsfrist nach § 23 EStG</i></div>'+
+    '<div class="sv">Jahr 10<i>'+(r.jahrOK&&r.jahrOK<10?'wertmäßig ginge es ab Jahr '+r.jahrOK+', steuerlich lohnt Warten':'passt zum Zeitpunkt, ab dem der Wert die Schulden deckt')+'</i></div></div>'+
+    '<div class="stress"><div class="sn">Alternative Sparplan<i>dieselben Zahlungen in einen ETF, 6 % im Jahr</i></div>'+
+    '<div class="sv '+(etfBesser?'neg':'pos')+'">'+eur(r.etfNetto)+'<i>Gewinn nach Steuern · Immobilie: '+eur(r.vermoegen)+'</i></div></div>'+
+    '<div class="erkbox"><b>Zur Einordnung:</b> '+(etfBesser
+      ? 'Rein rechnerisch käme dich ein Sparplan hier besser. Die Immobilie hat trotzdem Argumente, die in keiner Tabelle stehen: der Hebel wächst mit jedem Jahr Tilgung, Mieten steigen mit der Inflation, und ein ETF-Depot ist keine Sicherheit, mit der du das nächste Objekt finanzierst. Aber wenn der Abstand groß ist, ist es das falsche Objekt.'
+      : 'Die Immobilie liegt vorn — das kommt vom Kredithebel, den du beim Sparplan nicht bekommst. Diese Rechnung setzt allerdings voraus, dass die Annahmen zu Miete und Wert halten. Der ETF hat sie nicht nötig.')+'</div>';
+
+  /* Stresstest */
+  const sz=(name,unter,mod)=>{
+    const q=Object.assign({},P); mod(q); const rr=calc(q);
+    const d=rr.cfNach-r.cfNach;
+    return '<div class="stress"><div class="sn">'+name+'<i>'+unter+'</i></div><div class="sv '+
+      (rr.cfNach>=-P.zuschuss?'pos':'neg')+'">'+eur(rr.cfNach)+'<i>'+(d>=0?'+':'')+eur(d)+' · Risiko '+rr.score+'</i></div></div>';
+  };
+  const leerKosten=(r.rate+r.bewirt)*3;
+  $('stress').innerHTML=
+    sz('Kaufpreis 5 % niedriger','wenn du erfolgreich verhandelst',q=>q.kaufpreis=P.kaufpreis*0.95)+
+    sz('Zins 1 Punkt höher','wenn du kein gutes Angebot bekommst',q=>q.zins=P.zins+1)+
+    sz('Miete 10 % niedriger','wenn die Ist-Miete nicht haltbar ist',q=>q.kaltmiete=P.kaltmiete*0.9)+
+    sz('Tilgung auf 3 Prozent','schneller schuldenfrei, teurer im Monat',q=>q.tilgung=3)+
+    '<div class="stress"><div class="sn">Drei Monate Leerstand<i>Mieterwechsel mit Renovierung</i></div>'+
+    '<div class="sv '+(P.reserve>leerKosten+5000?'pos':'neg')+'">'+eur(-leerKosten)+
+    '<i>einmalig · Reserve danach '+eur(P.reserve-leerKosten)+'</i></div></div>'+
+    '<div class="stress"><div class="sn">Sonderumlage 15.000 €<i>Dach, Fassade oder Heizung</i></div>'+
+    '<div class="sv '+(P.reserve>=15000?'pos':'neg')+'">'+eur(-15000)+
+    '<i>einmalig · Reserve danach '+eur(P.reserve-15000)+'</i></div></div>';
+
+  /* Checkliste */
+  P.check=P.check||{};
+  const done=CHECKS.filter((c,i)=>P.check['c'+i]).length;
+  $('chkBar').className=done===CHECKS.length?'g':done>=6?'a':'r';
+  $('chkBar').style.width=Math.max(3,done/CHECKS.length*100)+'%';
+  $('chkTxt').textContent=done+' von '+CHECKS.length;
+  $('checkliste').innerHTML=CHECKS.map((c,i)=>
+    '<label class="chk '+(P.check['c'+i]?'done':'')+'"><input type="checkbox" data-chk="'+i+'"'+
+    (P.check['c'+i]?' checked':'')+'><span>'+c+'</span></label>').join('');
+  document.querySelectorAll('[data-chk]').forEach(b=>b.onchange=e=>{
+    P.check['c'+e.target.dataset.chk]=e.target.checked; touch(); render();
+  });
+
+  /* Onboarding */
+  $('onb').innerHTML = (objekte.length===0&&!LS.get('pruefstand.profil',null))
+    ? '<div class="onb"><b>Zuerst dein Profil ausfüllen</b><p>Oben rechts das Zahnrad. Dort trägst du einmalig Einkommen, Zuschussrahmen und Reserve ein — danach brauchst du je Wohnung nur noch die Zahlen aus dem Inserat. Kommt ein Objekt aus dem Radar, sind die meisten schon eingetragen.</p></div>'
+    : '';
+
   const anzOk=G.filter(g=>g.ok).length;
   $('gzLead').innerHTML='<b>'+anzOk+' von '+G.length+'</b> Kriterien im Rahmen. Ab welchem Wert die Rechnung kippt:';
   $('grenzen').innerHTML=G.map(g=>
@@ -798,10 +1552,9 @@ function render(){
    '<div class="gztext">'+g.txt+'</div></div>').join('');
 
   /* Cashflow */
-  const rowN=(l,val)=>'<div class="rw"><span>'+l+'</span><span>'+eur(val)+'</span></div>';
-  const rowS=(l,val)=>'<div class="rw sum"><span>'+l+'</span><span class="'+(val<0?'neg':'pos')+'">'+eur(val)+'</span></div>';
-  $('cf').innerHTML=rowN('Kaltmiete',P.kaltmiete)+rowN('abzgl. Mietausfallwagnis',-(P.kaltmiete-r.mieteEff))+
-    rowN('abzgl. Hausgeld, selbst getragen',-r.hgNU)+rowN('abzgl. eigene Rücklage',-r.ruecklage)+
+  $('cf').innerHTML=rowN(istOffen(P,'kaltmiete')?'Kaltmiete (Annahme: Marktmiete)':'Kaltmiete',P.kaltmiete)+
+    rowN('abzgl. Mietausfallwagnis',-(P.kaltmiete-r.mieteEff))+
+    rowN(istOffen(P,'hausgeld')?'abzgl. Hausgeld, selbst getragen (Annahme)':'abzgl. Hausgeld, selbst getragen',-r.hgNU)+rowN('abzgl. eigene Rücklage',-r.ruecklage)+
     rowN('abzgl. Kreditrate',-r.rate)+rowS('= vor Steuern',r.cfVor)+
     rowN('zzgl. Steuererstattung',r.stEff/12)+rowS('= euer Cashflow',r.cfNach)+
     '<div class="rw" style="border:0;padding-top:9px"><span style="color:var(--muted)">euer Rahmen: '+eur(-P.zuschuss)+
@@ -819,7 +1572,8 @@ function render(){
     st('Kaufpreisfaktor',nm(r.faktor)+'×','Jahresmieten bis zur Amortisation',r.faktor>25?'bad':r.faktor>22?'warn':'good')+
     st('Bruttomietrendite',pct(r.brutto,2),'Miete geteilt durch Kaufpreis',r.brutto<4?'bad':r.brutto<4.8?'warn':'good')+
     st('Kaufnebenkosten',eur(r.neben),pct(r.nkQuote)+' — Schulden ohne Gegenwert')+
-    st('Gesamtkredit',eur(r.darlehen),'Beleihung '+pct(r.beleihung),r.beleihung>100?'bad':r.beleihung>90?'warn':'good')+
+    st('Gesamtkredit',eur(r.darlehen),r.sicherheit>0?('Beleihung '+pct(r.beleihung)+', mit Sicherheit '+pct(r.effBeleihung)):('Beleihung '+pct(r.beleihung)),
+       (r.sicherheit>0?r.effBeleihung:r.beleihung)>100?'bad':(r.sicherheit>0?r.effBeleihung:r.beleihung)>90?'warn':'good')+
     st('Monatsrate',eur(r.rate),pct(P.zins)+' Zins, '+pct(P.tilgung)+' Tilgung')+
     st('Schuldenfrei nach',r.laufzeit+' Jahren','bei gleichbleibender Rate',r.laufzeit>33?'warn':'');
 
@@ -850,6 +1604,51 @@ function render(){
   }).join('');
 
   fazit(r,v,{maxKP,maxFaktor:maxKP/(P.kaltmiete*12)});
+  renderVergleich(); renderPortfolio();
+  markiere();
+}
+
+/* Alle gespeicherten Objekte einmal je Durchlauf durchgerechnet */
+function alle(){
+  if(!CACHE) CACHE=objekte.map(o=>{const p=Object.assign({},START,o.p);
+    return {id:o.id,name:o.name,p:p,r:calc(p),vorl:Array.isArray(p.offen)&&p.offen.length>0}});
+  return CACHE;
+}
+
+function renderPortfolio(){
+  const ga=alle().filter(o=>o.p.status==='gekauft'), g=ga.map(o=>o.p);
+  if(!g.length){
+    $('pfCard').style.display='none'; return;
+  }
+  $('pfCard').style.display='block';
+  let kp=0,dar=0,cf=0,verm=0,rate=0,miete=0;
+  ga.forEach(o=>{const p=o.p,rr=o.r;kp+=p.kaufpreis;dar+=rr.darlehen;cf+=rr.cfNach;verm+=rr.vermoegen;rate+=rr.rate;miete+=p.kaltmiete});
+  const st=(k,v,s,tone)=>'<div class="st"><div class="k">'+k+'</div><div class="v '+(tone||'')+'">'+v+'</div><div class="s">'+s+'</div></div>';
+  $('portfolio').innerHTML='<div class="stats">'+
+    st('Objekte',g.length,'im Bestand')+
+    st('Verkehrswert',eur(kp),'zum Einstandspreis')+
+    st('Restschuld',eur(dar),'Beleihung '+pct(dar/kp*100),dar>kp?'bad':'')+
+    st('Mieteinnahmen',eur(miete),'kalt im Monat')+
+    st('Kapitaldienst',eur(rate),'Raten im Monat')+
+    st('Cashflow',eur(cf),'nach Steuern im Monat',cf<0?'warn':'good')+
+    '</div>'+
+    '<div class="erkbox">Setz den Status eines Objekts auf „Gekauft“, sobald der Notartermin durch ist. Dann rechnet diese Übersicht deinen tatsächlichen Bestand zusammen — Eigenkapitalanteil, monatliche Belastung und Mieteinnahmen auf einen Blick.</div>';
+}
+function statusBadge(st){
+  const s=STATUS.find(x=>x[0]===(st||'beobachten'))||STATUS[0];
+  return '<span class="badge '+s[2]+'">'+s[1]+'</span>';
+}
+function renderListe(){
+  $('objliste').innerHTML = objekte.length ? alle().slice().sort((a,b)=>a.r.score-b.r.score).map(o=>{
+      const rr=o.r,u=urteil(rr.score);
+      return '<div class="obj '+(o.id===aktivId?'act':'')+'"><span class="dot '+u.c+'">'+rr.score+'</span>'+
+       '<span class="nm" data-load="'+o.id+'"><b>'+esc(o.name)+'</b><span>'+eur(o.p.kaufpreis)+' · Faktor '+
+       nm(rr.faktor)+' · '+eur(rr.cfNach)+'/M'+(o.vorl?' · vorläufig':'')+'</span></span>'+statusBadge(o.p.status)+
+       '<button class="x" data-del="'+o.id+'">×</button></div>';
+    }).join('') : '<p class="mini">Noch nichts gespeichert. Trag beim Objekt eine Wohnung ein oder öffne eine aus dem Radar, und tippe auf Speichern.</p>';
+  document.querySelectorAll('[data-load]').forEach(e=>e.onclick=()=>laden(e.dataset.load));
+  document.querySelectorAll('[data-del]').forEach(e=>e.onclick=()=>loeschen(e.dataset.del));
+  $('lsWarn').innerHTML = LS.ok?'':'<div class="warnbox"><b>Speichern geht hier nicht.</b> Dieses Vorschaufenster erlaubt keinen Gerätespeicher. Sobald du die Datei über eine echte Adresse öffnest, funktioniert es.</div>';
 }
 
 /* ============ Chart ============ */
@@ -881,6 +1680,11 @@ function chart(r){
 
 /* ============ Fazit ============ */
 function fazit(r,v,g){
+  if(kernFehlt(P)){
+    $('fazit').innerHTML='<span class="tag a">Fazit</span><h2>Noch nicht bewertbar</h2><p>Für ein Urteil fehlen Kaufpreis, Wohnfläche und Miete. Trag sie beim Objekt ein.</p>';
+    return;
+  }
+  const offL=offenListe(P);
   const probleme=[],gut=[];
   if(P.kaufpreis>g.maxKP) probleme.push('<b>Der Preis passt nicht zur Miete.</b> Mit '+eur(P.zuschuss)+' Zuzahlung tragt ihr bis '+eur(g.maxKP)+'. Es müssten '+eur(P.kaufpreis-g.maxKP)+' verhandelt werden, das gelingt selten. Sucht ein Objekt mit Faktor unter '+nm(g.maxFaktor,0)+'.');
   else gut.push('Der Kaufpreis liegt '+eur(g.maxKP-P.kaufpreis)+' unter eurer Belastungsgrenze.');
@@ -905,7 +1709,8 @@ function fazit(r,v,g){
       (schnell?'Ab Jahr '+r.jahrOK+' deckt der Wert die Restschuld wieder — die kritische Phase ist überschaubar, aber in diesen Jahren darf nichts passieren, was zum Verkauf zwingt.'
              :(r.jahrOK?'Erst ab Jahr '+r.jahrOK:'Auf lange Sicht nicht')+' könntet ihr ohne Verlust verkaufen. Bis dahin seid ihr unbeweglich: Jobwechsel, Umzug oder Trennung würden teuer.'));
   }
-  if(P.zustand!=='saniert'&&(new Date().getFullYear()-P.baujahr)>45)
+  if(r.bauOffen) {}
+  else if(P.zustand!=='saniert'&&(new Date().getFullYear()-P.baujahr)>45)
     probleme.push('<b>Baujahr '+P.baujahr+', nicht durchsaniert.</b> Dach, Fassade, Heizung und Leitungen stehen statistisch an. Ohne Rücklagenstand und WEG-Protokolle der letzten drei Jahre solltet ihr kein Angebot abgeben.');
 
   const einl = probleme.length===0
@@ -920,45 +1725,279 @@ function fazit(r,v,g){
   if(P.kaufpreis>g.maxKP) hebel.push('Kaufpreis unter '+eur(g.maxKP)+' — oder ein Objekt mit Faktor unter '+nm(g.maxFaktor,0));
   if(P.makler>0) hebel.push('provisionsfrei kaufen: spart sofort '+eur(P.kaufpreis*P.makler/100)+' Schulden');
   if(P.weitereRaten>0) hebel.push('laufenden Kredit ablösen: '+eur(P.weitereRaten)+' mehr Spielraum monatlich');
-  if(r.beleihung>95) hebel.push('Zusatzsicherheit stellen, um unter 80 Prozent Beleihung zu kommen — spart 0,6 bis 1,0 Zinspunkte');
+  if(r.beleihung>95&&r.sicherheit===0) hebel.push('Zusatzsicherheit aus der Familie stellen: eine Grundschuld auf einer lastenfreien Immobilie drückt die Beleihung unter 80 Prozent und spart 0,6 bis 1,0 Zinspunkte, ohne dass ihr Eigenkapital braucht');
+  if(r.sicherheit>0&&r.freigabe) gut.push('Die Zusatzsicherheit senkt die angerechnete Beleihung auf '+pct(r.effBeleihung)+' und kann ab Jahr '+r.freigabe+' freigegeben werden.');
   if(r.leerMon<6) hebel.push('Reserve auf '+eur(rateBed(r)*6)+' aufbauen, bevor ihr unterschreibt');
   if(P.tilgung<2.5&&r.kritZins&&r.kritZins<6.5) hebel.push('Tilgung auf 2,5 bis 3 Prozent anheben, damit die Restschuld nach der Bindung kleiner ist');
   if(P.netto2===0) hebel.push('gemeinsam finanzieren: ein zweites Einkommen verschiebt jede Grenze in dieser Rechnung deutlich');
 
-  $('fazit').innerHTML='<span class="tag '+v.c+'">Fazit</span><h2>'+v.t+'</h2><p>'+einl+'</p>'+
+  $('fazit').innerHTML='<span class="tag '+v.c+'">'+(offL.length?'Vorläufiges Fazit':'Fazit')+'</span><h2>'+v.t+'</h2>'+
+   (offL.length?'<p class="vorl"><b>Noch offen: '+offL.map(x=>x.n).join(', ')+'.</b> Gerechnet ist mit Annahmen ('+annahmeText(P)+'). Das Urteil kann sich noch verschieben, vor allem durch Ist-Miete und Hausgeld.</p>':'')+
+   '<p>'+einl+'</p>'+
    (probleme.length?'<p class="stark">Was dagegen spricht</p><ul>'+probleme.map(x=>'<li>'+x+'</li>').join('')+'</ul>':'')+
    (gut.length&&probleme.length?'<p class="stark" style="margin-top:16px">Was dafür spricht</p><ul>'+gut.map(x=>'<li>'+x+'</li>').join('')+'</ul>':'')+
    (hebel.length?'<p class="stark" style="margin-top:16px">Diese Stellschrauben würden es drehen</p><ul>'+hebel.map(x=>'<li>'+x+'</li>').join('')+'</ul>':'');
 }
 
-/* ============ Tabs ============ */
-document.querySelectorAll('.tab').forEach(t=>{
-  t.onclick=()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
-    document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
-    t.classList.add('on');
-    $(t.dataset.tab).classList.add('on');
-    window.scrollTo({top:0});
-  };
+
+/* ============ Vergleich ============ */
+const KRIT=[
+ {k:'score',   n:'Risikopunkte',        f:o=>o.r.score,                     fmt:v=>Math.round(v),        low:true},
+ {k:'cf',      n:'Zuzahlung im Monat',  f:o=>o.r.cfNach,                    fmt:v=>eur(v),               low:false},
+ {k:'faktor',  n:'Kaufpreisfaktor',     f:o=>o.r.faktor,                    fmt:v=>nm(v)+'×',            low:true},
+ {k:'brutto',  n:'Bruttomietrendite',   f:o=>o.r.brutto,                    fmt:v=>pct(v,2),             low:false},
+ {k:'qm',      n:'Preis je m²',         f:o=>o.p.kaufpreis/o.p.wohnflaeche, fmt:v=>eur(v),               low:true},
+ {k:'preis',   n:'Kaufpreis',           f:o=>o.p.kaufpreis,                 fmt:v=>eur(v),               low:null},
+ {k:'lage',    n:'Standort',            f:o=>o.r.ls,                        fmt:v=>v+'/14',              low:false},
+ {k:'bel',     n:'Beleihung',           f:o=>o.r.beleihung,                 fmt:v=>pct(v),               low:true},
+ {k:'rate',    n:'Monatsrate',          f:o=>o.r.rate,                      fmt:v=>eur(v),               low:true},
+ {k:'puffer',  n:'Puffer in Monaten',   f:o=>o.r.leerMon,                   fmt:v=>nm(v,0),              low:false},
+ {k:'bank',    n:'Spielraum Bank',      f:o=>o.r.bankUeb,                   fmt:v=>eur(v),               low:false},
+ {k:'rest',    n:'Restschuld n. Bindung',f:o=>o.r.restBind,                 fmt:v=>eur(v),               low:true},
+ {k:'verm',    n:'Vermögen n. Bindung', f:o=>o.r.vermoegen,                 fmt:v=>eur(v),               low:false}
+];
+const SORTS=[['score','Risiko'],['cf','Zuzahlung'],['faktor','Faktor'],['qm','Preis je m²'],['lage','Standort'],['verm','Vermögen']];
+
+function vglDaten(){ return alle() }
+function renderVergleich(){
+  const d=vglDaten();
+  if(d.length<2){
+    $('vglLead').textContent='Der Vergleich braucht mindestens zwei gespeicherte Objekte.';
+    $('sortbar').innerHTML='';
+    $('rangliste').innerHTML='<div class="empty"><div class="big">⚖</div>Speichere zwei oder mehr Objekte, dann siehst du hier auf einen Blick, welches das bessere ist und warum.</div>';
+    $('mtxCard').style.display='none';
+    return;
+  }
+  $('mtxCard').style.display='block';
+
+  /* Bestwerte je Kriterium */
+  const best={},worst={};
+  KRIT.forEach(kr=>{
+    if(kr.low===null) return;
+    const vals=d.map(kr.f).filter(v=>isFinite(v));
+    best[kr.k]=kr.low?Math.min.apply(null,vals):Math.max.apply(null,vals);
+    worst[kr.k]=kr.low?Math.max.apply(null,vals):Math.min.apply(null,vals);
+  });
+
+  const sk=KRIT.find(x=>x.k===sortKey)||KRIT[0];
+  const sortiert=d.slice().sort((a,b)=>sk.low?sk.f(a)-sk.f(b):sk.f(b)-sk.f(a));
+  const sieger=d.slice().sort((a,b)=>a.r.score-b.r.score)[0];
+
+  $('vglLead').innerHTML='<b>'+esc(sieger.name)+'</b> liegt mit '+sieger.r.score+' Risikopunkten vorn. Sortiert nach: '+
+    (SORTS.find(s=>s[0]===sortKey)||['','Risiko'])[1]+'.';
+
+  $('sortbar').innerHTML=SORTS.map(([k,l])=>
+    '<button class="sbtn '+(k===sortKey?'on':'')+'" data-sort="'+k+'">'+l+'</button>').join('');
+  document.querySelectorAll('[data-sort]').forEach(b=>b.onclick=()=>{sortKey=b.dataset.sort;renderVergleich()});
+
+  /* Rangliste mit Stärken und Schwächen */
+  $('rangliste').innerHTML=sortiert.map((o,i)=>{
+    const u=urteil(o.r.score);
+    const plus=[],minus=[];
+    KRIT.forEach(kr=>{
+      if(kr.low===null) return;
+      const v=kr.f(o);
+      if(d.length>1&&v===best[kr.k]&&best[kr.k]!==worst[kr.k]) plus.push('bester Wert bei „'+kr.n+'“ ('+kr.fmt(v)+')');
+      if(d.length>2&&v===worst[kr.k]&&best[kr.k]!==worst[kr.k]) minus.push('schwächster Wert bei „'+kr.n+'“ ('+kr.fmt(v)+')');
+    });
+    if(o.r.cfNach>=-o.p.zuschuss) plus.push('bleibt im Rahmen eurer '+eur(o.p.zuschuss)+' Zuzahlung');
+    else minus.push('sprengt euren Zuzahlungsrahmen um '+eur(-(o.r.cfNach+o.p.zuschuss)));
+    if(o.r.bankUeb<300) minus.push('Bank sagt bei '+eur(o.r.bankUeb)+' Überschuss voraussichtlich ab');
+    if(o.r.leerMon<6) minus.push('Puffer reicht nur '+nm(o.r.leerMon,0)+' Monate ohne Miete');
+    if(o.r.beleihung>100) minus.push('startet mit mehr Schulden als Wert');
+    if(o.r.ls>=11) plus.push('Standort mit Rückenwind');
+    if(o.r.faktor<20) plus.push('Preis-Miete-Verhältnis trägt eine Vollfinanzierung');
+    if(o.vorl) minus.push('vorläufig: '+offenListe(o.p).map(x=>x.n).join(', ')+' noch offen');
+    if(!o.r.bauOffen&&o.p.zustand!=='saniert'&&(new Date().getFullYear()-o.p.baujahr)>45) minus.push('Baujahr '+o.p.baujahr+' ohne Sanierung: Sonderumlagen wahrscheinlich');
+
+    return '<div class="rank"><div class="pos">'+(i+1)+'</div><div class="bd">'+
+      '<div class="tt"><b>'+esc(o.name)+'</b>'+(o.vorl?'<span class="badge b2">vorläufig</span>':'')+'<span class="dot '+u.c+'">'+o.r.score+'</span></div>'+
+      '<div class="mini2"><span>'+eur(o.p.kaufpreis)+'</span><span>Faktor <b>'+nm(o.r.faktor)+'</b></span>'+
+      '<span><b>'+eur(o.r.cfNach)+'</b>/M</span><span>Lage <b>'+o.r.ls+'/14</b></span></div>'+
+      plus.slice(0,3).map(x=>'<div class="plus">'+x+'</div>').join('')+
+      minus.slice(0,3).map(x=>'<div class="minus">'+x+'</div>').join('')+
+      '<div class="btnrow" style="margin-top:9px"><button class="btn sec sm" data-open="'+o.id+'">Öffnen</button></div>'+
+      '</div></div>';
+  }).join('');
+  document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>laden(b.dataset.open));
+
+  /* Matrix */
+  $('matrix').innerHTML='<table class="mtx"><thead><tr><th class="crit">Kennzahl</th>'+
+    sortiert.map(o=>'<th>'+esc(o.name.length>13?o.name.slice(0,12)+'…':o.name)+'</th>').join('')+'</tr></thead><tbody>'+
+    KRIT.map(kr=>'<tr><td class="crit">'+kr.n+'</td>'+sortiert.map(o=>{
+      const v=kr.f(o);
+      let c='';
+      if(kr.low!==null&&best[kr.k]!==worst[kr.k]){ if(v===best[kr.k])c=' class="best"'; else if(d.length>2&&v===worst[kr.k])c=' class="worst"'; }
+      return '<td'+c+'>'+kr.fmt(v)+'</td>';
+    }).join('')+'</tr>').join('')+'</tbody></table>';
+}
+
+/* ============ Profil ============ */
+function profilAnwenden(){
+  PFKEYS.forEach(k=>P[k]=profil[k]);
+  touch(); feldWerteSetzen(); render();
+  toast('Profilwerte übernommen');
+}
+
+/* ============ Sichern & Übertragen ============ */
+function paket(){ return JSON.stringify({v:1,profil:profil,objekte:objekte}) }
+function umzugsLink(){ return location.origin+location.pathname+'#d='+b64x(paket()) }
+function kopiere(text,meldung){
+  const ok=()=>toast(meldung||'Kopiert');
+  const alt=()=>{ const t=document.createElement('textarea'); t.value=text; t.style.position='fixed'; t.style.opacity='0';
+    document.body.appendChild(t); t.select(); try{document.execCommand('copy');ok()}catch(e){toast('Kopieren nicht möglich')} t.remove() };
+  try{ if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok,alt); else alt() }catch(e){ alt() }
+}
+/* Führt zusammen statt zu ersetzen: nichts geht verloren */
+function einlesen(txt){
+  try{
+    let d=JSON.parse(txt);
+    if(Array.isArray(d)) d={objekte:d};
+    if(!d||typeof d!=='object'||(!Array.isArray(d.objekte)&&!d.profil)) return false;
+    let neuN=0, aktN=0;
+    (d.objekte||[]).forEach(o=>{
+      if(!o||!o.id||!o.p) return;
+      const i=objekte.findIndex(x=>x.id===o.id||(o.p.rk&&x.p&&x.p.rk===o.p.rk));
+      if(i>=0){ if((o.ts||0)>(objekte[i].ts||0)){objekte[i]=Object.assign({},o,{id:objekte[i].id});aktN++} }
+      else { objekte.push(o); neuN++ }
+    });
+    LS.set('pruefstand.objekte',objekte);
+    if(d.profil){
+      profil=Object.assign(leeresProfil(),d.profil); LS.set('pruefstand.profil',profil);
+      if(!aktivId){ PFKEYS.forEach(k=>P[k]=profil[k]); if(kernFehlt(P)&&!P.bearbeitet) P=leer(); }
+    }
+    clearTimeout(saveTimer);
+    const akt=aktivId&&objekte.find(o=>o.id===aktivId);
+    if(akt) P=Object.assign(frisch(),kopie(akt.p)); else aktivId=null;
+    FREMD=false; geaendert();
+    feldWerteSetzen(); render();
+    return {neu:neuN,akt:aktN,profil:!!d.profil};
+  }catch(e){ return false }
+}
+function einleseText(e){
+  if(!e) return 'Das konnte nicht gelesen werden.';
+  return 'Eingelesen: '+e.neu+' neu, '+e.akt+' aktualisiert'+(e.profil?', Profil übernommen':'')+'.';
+}
+/* Sicherung als Datei: auf dem iPhone über „Teilen“ in Dateien ablegen */
+async function sichern(){
+  const txt=paket(), name='pruefstand-sicherung-'+new Date().toISOString().slice(0,10)+'.txt';
+  let ok=false;
+  try{
+    const f=new File([txt],name,{type:'text/plain'});
+    if(navigator.canShare&&navigator.canShare({files:[f]})){ await navigator.share({files:[f],title:'Prüfstand-Sicherung'}); ok=true }
+  }catch(e){ if(e&&e.name==='AbortError') return; }
+  if(!ok){
+    try{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([txt],{type:'text/plain'}));
+      a.download=name; document.body.appendChild(a); a.click(); a.remove(); ok=true }catch(e){}
+  }
+  if(ok){ LS.set('pruefstand.sicherung',Date.now()); toast('Sicherung erstellt'); renderHinweise() }
+  else toast('Sicherung nicht möglich. Nutze unten „Als Code“.');
+}
+/* Liest einen Link aus der Adresszeile: Objekt aus dem Radar oder Umzug */
+function hashLesen(){
+  const h=location.hash;
+  if(h.indexOf('#neu=')===0){
+    const d=radarLesen(h.slice(5));
+    const m=d?radarUebernehmen(d):'Der Link aus dem Radar war nicht lesbar.';
+    if(!FREMD){ try{history.replaceState(null,'',location.pathname+location.search)}catch(e){} }
+    return m;
+  }
+  if(h.indexOf('#d=')===0){
+    let m='Der Umzugslink war nicht lesbar.';
+    try{
+      const txt=unb64x(h.slice(3)), d=JSON.parse(txt), n=(d.objekte||[]).length;
+      if(confirm('Dieser Link enthält '+n+' gespeicherte '+(n===1?'Objekt':'Objekte')+' und ein Profil. Hier übernehmen? Vorhandene Objekte bleiben erhalten.'))
+        m=einleseText(einlesen(txt)); else m='';
+    }catch(e){}
+    try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}
+    return m;
+  }
+  return null;
+}
+
+/* ============ Ansicht: App oder Desktop ============ */
+const mq=window.matchMedia('(min-width:1000px)');
+let modus=null, aktivTab='v1';
+const TABS_APP=[['v1','Objekt'],['v2','Analyse'],['v4','Vergleich'],['v3','Fazit']];
+const TABS_DESK=[['work','Prüfen'],['v4','Vergleich'],['v3','Fazit']];
+
+function setTab(id){
+  aktivTab=id;
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
+  $('work').classList.remove('on');
+  if(id==='work'){ $('work').classList.add('on'); $('v1').classList.add('on'); $('v2').classList.add('on'); }
+  else { const el=$(id); if(el) el.classList.add('on'); if(id==='v1'||id==='v2') $('work').classList.add('on'); }
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.tab===id));
+  window.scrollTo({top:0});
+}
+function baueTabs(){
+  const desk=mq.matches;
+  const neuerModus=desk?'desk':'app';
+  if(neuerModus===modus) return;
+  modus=neuerModus;
+  document.body.dataset.mode=modus;
+  const liste=desk?TABS_DESK:TABS_APP;
+  $('tabs').innerHTML=liste.map(([id,l])=>'<button class="tab" data-tab="'+id+'">'+l+'</button>').join('');
+  document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>setTab(t.dataset.tab));
+  const gueltig=liste.some(x=>x[0]===aktivTab);
+  if(desk) setTab(gueltig&&aktivTab!=='v1'&&aktivTab!=='v2'?aktivTab:'work');
+  else setTab(aktivTab==='work'?'v1':(gueltig?aktivTab:'v1'));
+}
+if(mq.addEventListener) mq.addEventListener('change',baueTabs); else mq.addListener(baueTabs);
+
+/* ============ Sheet ============ */
+$('btnProfil').onclick=()=>{feldWerteSetzen();$('sheet').classList.add('on')};
+$('btnClose').onclick=()=>$('sheet').classList.remove('on');
+$('sheet').onclick=e=>{if(e.target.id==='sheet')$('sheet').classList.remove('on')};
+$('btnApply').onclick=profilAnwenden;
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') $('sheet').classList.remove('on');
+  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='s'){e.preventDefault();speichern()}
 });
 
 /* ============ Start ============ */
 baueFelder();
-if(aktivId&&objekte.find(o=>o.id===aktivId)) P=Object.assign({},START,objekte.find(o=>o.id===aktivId).p);
+baueTabs();
+{
+  const akt=aktivId&&objekte.find(o=>o.id===aktivId);
+  if(akt) P=Object.assign(frisch(),kopie(akt.p));
+  else { aktivId=null; const d=LS.get('pruefstand.draft',null); P = (d&&typeof d==='object') ? Object.assign(frisch(),d) : leer(); }
+}
+function linkAnnehmen(){
+  const m=hashLesen();
+  if(m===null) return;
+  feldWerteSetzen(); render();
+  setTab(modus==='desk'?'work':'v1');
+  if(m) toast(m);
+}
+let startMeldung=hashLesen();
+window.addEventListener('hashchange',linkAnnehmen);
 feldWerteSetzen();
 $('btnSave').onclick=speichern;
+$('btnDup').onclick=duplizieren;
 $('btnNeu').onclick=neu;
-$('btnExp').onclick=()=>{$('exp').value=JSON.stringify(objekte)};
-$('btnCopy').onclick=()=>{
-  const t=$('exp'); if(!t.value)t.value=JSON.stringify(objekte); t.select();
-  try{navigator.clipboard.writeText(t.value);alert('Sicherungstext kopiert.')}catch(e){document.execCommand('copy')}
-};
+$('btnDel').onclick=()=>{ if(aktivId) loeschen(aktivId); else if(!P.bearbeitet||confirm('Diesen Entwurf verwerfen?')) verwerfen(); };
+$('btnPrint').onclick=()=>window.print();
+$('btnExp').onclick=()=>{$('exp').value=paket()};
+$('btnLink').onclick=()=>{$('exp').value=umzugsLink()};
+$('btnCopy').onclick=()=>{ const t=$('exp'); if(!t.value) t.value=umzugsLink(); kopiere(t.value) };
 $('btnImp').onclick=()=>{
-  try{const a=JSON.parse($('exp').value);
-    if(Array.isArray(a)){objekte=a;LS.set('pruefstand.objekte',objekte);render();alert('Importiert.')}}
-  catch(e){alert('Der Text konnte nicht gelesen werden.')}
+  let t=$('exp').value.trim();
+  if(!t){toast('Erst Code oder Link einfügen.');return}
+  try{ if(t.indexOf('#d=')>-1) t=unb64x(t.split('#d=')[1]) }catch(e){ t='' }
+  toast(einleseText(einlesen(t)));
+};
+$('btnSich').onclick=sichern;
+$('btnLade').onclick=()=>$('fileImp').click();
+$('fileImp').onchange=e=>{
+  const f=e.target.files&&e.target.files[0]; if(!f) return;
+  const rd=new FileReader();
+  rd.onload=()=>{ toast(einleseText(einlesen(String(rd.result||'').trim()))); e.target.value='' };
+  rd.onerror=()=>toast('Die Datei konnte nicht gelesen werden.');
+  rd.readAsText(f);
 };
 render();
+if(startMeldung!==null){ setTab(modus==='desk'?'work':'v1'); if(startMeldung) toast(startMeldung); }
 </script>
 </body>
 </html>
